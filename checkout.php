@@ -395,7 +395,7 @@ if ( isset($_SESSION['auth_login']) ) {
                         }
                     ?>
                     <input type="hidden" value="true" name="cart_checkout" />
-                    <button class="order_button">Place Order</button>
+                    <button class="order_button" onclick="sendEmail()">Place Order</button>
                 </form>
             </div>
         </div>
@@ -403,6 +403,24 @@ if ( isset($_SESSION['auth_login']) ) {
     </div>
 </body>
 <?php include 'footer.php';?>
+<script>
+function sendEmail() {
+    // Assuming you have jQuery included in your project for AJAX requests
+    $.ajax({
+        url: 'send_checkout.php', // URL of the PHP file that contains the email sending logic
+        type: 'POST',
+        data: { /* If you need to send any data to the PHP file, include it here */ },
+        success: function(response) {
+            // Handle the response from the PHP file (e.g., show a success message)
+            console.log('Email sent successfully');
+        },
+        error: function(xhr, status, error) {
+            // Handle any errors that occur during the AJAX request
+            console.error('Error sending email:', error);
+        }
+    });
+}
+</script>
 <script>
 function updateShippingFee() {
     var region = "<?php echo isset($selected_address['region']) ? $selected_address['region'] : ''; ?>";
