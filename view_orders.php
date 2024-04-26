@@ -337,7 +337,7 @@ $totalOrders = count($orders);
 
                                     <div class="mt-3">
                                         <h5><strong
-                                                class="text-secondary mb-1"><?php echo $orders[0]['order_username']; ?></strong>
+                                        class="text-secondary mb-1"><?php echo $orders[0]['order_username']; ?></strong>
                                         </h5>
                                         <p class="text-secondary mb-0"><?php echo $orders[0]['order_phonenumber']; ?>
                                         </p>

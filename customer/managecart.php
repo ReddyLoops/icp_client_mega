@@ -48,6 +48,7 @@ if (isset($_POST['cart_checkout'])) {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$order_username, $order_phonenumber, $order_address, $order_courier, $group_order, $auth_id, $product_name, $product_price, $product_quantity, $product_image, $payment_method, $status]);
+        $order_id = $pdo->lastInsertId();
 
         // Decrease product stock
         decreaseProductStock($product_id, $product_quantity, $pdo);
@@ -56,7 +57,8 @@ if (isset($_POST['cart_checkout'])) {
     // Clear the cart after checkout
     unset($_SESSION[$cart_name]);
 
-    header("location: ../orders.php");
+       // Redirect to checkout receipt page
+    header("location: ../checkout_reciept.php?order_id=$order_id");
     exit;
 }
 
@@ -77,7 +79,7 @@ if (isset($_POST['cart_checkout'])) {
 
 		$_SESSION['alert'] = "Product added";
 	}
-
+    
 	# Redirect back
 	header("location: ../index.php");
 ?>

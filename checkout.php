@@ -395,7 +395,7 @@
                             }
                         ?>
                         <input type="hidden" value="true" name="cart_checkout" />
-                        <button class="order_button" onclick="sendCheckout()">Place Order</button>
+                        <button class="order_button" >Place Order</button>
                     </form>
                 </div>
             </div>
@@ -404,26 +404,29 @@
     </body>
     <?php include 'footer.php';?>
     <script>
-    function sendCheckout() {
-        // Serialize the form data
-        var formData = $('form').serialize();
-
-        // Send the form data to send_checkout.php
-        $.ajax({
-            type: 'POST',
-            url: 'send_checkout.php',
-            data: formData,
-            success: function(response) {
-                // Handle the success response here
-                console.log(response);
-            },
-            error: function(xhr, status, error) {
-                // Handle any errors here
-                console.error(xhr.responseText);
-            }
-        });
-    }
+    document.getElementById('placeOrderButton').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        var form = document.querySelector('form');
+        
+        // Step 1: Set action to send_checkout.php with method get
+        form.action = 'send_checkout.php';
+        form.method = 'get';
+        
+        // Submit the form for the first step
+        form.submit();
+        
+        // Step 2: After the first submission, change action to managecart.php with method post
+        setTimeout(function() {
+            form.action = 'customer/managecart.php';
+            form.method = 'post';
+            
+            // Submit the form for the second step
+            form.submit();
+        }, 1000); // Delay to ensure the first submission has completed
+    });
 </script>
+
     <script>
     function updateShippingFee() {
         var region = "<?php echo isset($selected_address['region']) ? $selected_address['region'] : ''; ?>";
