@@ -9,24 +9,24 @@
     }
 
     // Check if the 'order_id' parameter is set in the URL
-    if (!isset($_GET['order_id'])) {
+    if (!isset($_GET['group_order'])) {
         echo "No order ID provided.";
         exit;
     }
 
     // Sanitize the 'order_id' parameter
-    $order_id = filter_var($_GET['order_id'], FILTER_SANITIZE_NUMBER_INT);
+    $auth_id = $_SESSION['auth_login']['id'];
     // Set a default value for $group_order (or get it from somewhere)
-    $group_order = 155  ; // For example, if group_order is not provided, set it to 0
+    $group_order = $_GET['group_order'];
 
     // Debugging: Echo the SQL query and the sanitized order_id
     $query = "SELECT * FROM `orders` WHERE `customer_id` = ? AND `group_order` = ? ORDER BY date_added DESC;";
     echo "Query: " . $query . "<br>";
-    echo "Order ID: " . $order_id . "<br>";
+    echo "Order ID: " . $auth_id . "<br>";
     echo "Group Order: " . $group_order . "<br>";
 
     $stmt_products = $conn->prepare($query);
-    $stmt_products->bind_param("ii", $order_id, $group_order);
+    $stmt_products->bind_param("ii", $auth_id, $group_order);
     if (!$stmt_products->execute()) {
         echo "Error executing statement: " . $stmt_products->error;
         exit;
