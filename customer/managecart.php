@@ -57,9 +57,8 @@ if (isset($_POST['cart_checkout'])) {
     // Clear the cart after checkout
     unset($_SESSION[$cart_name]);
 
-       // Redirect to checkout receipt page
-    header("location: ../checkout_reciept.php?order_id=$order_id");
-    exit;
+        header("location: ../checkout_reciept.php?order_id=$order_id");
+        exit;
 }
 
 
