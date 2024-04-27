@@ -26,7 +26,7 @@
     echo "Group Order: " . $group_order . "<br>";
 
     $stmt_products = $conn->prepare($query);
-    $stmt_products->bind_param("ii", $auth_id, $group_order);
+    $stmt_products->bind_param("is", $auth_id, $group_order);
     if (!$stmt_products->execute()) {
         echo "Error executing statement: " . $stmt_products->error;
         exit;
@@ -53,7 +53,7 @@
                     </tr>
                 </thead>
                 <tbody id="products_body">
-                    <?php while ($product = $result_products->fetch_assoc()) { ?>
+                    <?php while ($product = $result_products->fetch_assoc()) {  ?>
                         <tr>
                             <td style="height:35px;"></td>
                         </tr>
