@@ -5,8 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
     extract($_POST);
 
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-$sql = "INSERT INTO `login`( `first_name`,`last_name`,`birthday`,`gender`,`mobile_number`,`email`, `password`)
-VALUES(:first_name, :last_name, :birthday, :gender, :mobile_number, :email, :password)";
+$sql = "INSERT INTO `hold_otp` (`first_name`, `last_name`, `birthday`, `gender`, `mobile_number`, `email`, `password`, `date_created`)
+        VALUES (:first_name, :last_name, :birthday, :gender, :mobile_number, :email, :password, NOW())";
 
 try {
     $stmt = $pdo->prepare($sql);
@@ -22,8 +22,7 @@ try {
 
     if ($result) {
         echo ("<SCRIPT LANGUAGE='JavaScript'>
-            window.alert('Succesfully Registered, Please Login')
-            window.location.href='login.php';
+            window.location.href='signup_otp.php';
             </SCRIPT>");
         exit;
     }

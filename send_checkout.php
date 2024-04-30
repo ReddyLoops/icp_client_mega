@@ -29,11 +29,16 @@ if ($conn) {
 
                 $product_data[] = array(
                     'product_name' => $row['product_name'],
+                    'customer_id' => $row['customer_id'],
                     'product_price' => $row['product_price'],
+                    'status' => $row['status'],
+                    'group_order' => $row['group_order'],
+                    'date_added' => $row['date_added'],
                     'product_quantity' => $row['product_quantity'],
                     'total' => $total, // Include total in product data
                     'order_phonenumber' => $row['order_phonenumber'],
                     'order_username' => $row['order_username'],
+                    'order_payment' => $row['order_payment'],
                     'order_address' => $row['order_address']
                 );
             }
@@ -60,30 +65,79 @@ if ($conn) {
 
                 // Set email content
                 $mail->Subject = 'Thank You';
-                $mail->Body = '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: linear-gradient(#93C572, #FFFFFF);">
-                <div style="background-color: #008000; text-align: center; padding: 10px;">
-                <img src="https://res.cloudinary.com/dqtbveriz/image/upload/v1711791868/logo_white_lio37e.png" alt="Sample Logo" style="display: inline-block; max-width: 200px;">
-                </div>
-                <h2 style="color: #333333; font-size: 24px; font-weight: bold; text-align: center;">Your Order Has Been Placed</h2>';
-
-                foreach ($product_data as $product) {
-                    $mail->Body .= '<p style="font-size: 16px;"><strong>Product Name:</strong> ' . $product['product_name']. '</p><p style="font-size: 16px;"><strong>Product Price:</strong> ' . $product['product_price']. '</p>
-                    <p style="font-size: 16px;"><strong>Product Quantity:</strong> ' . $product['product_quantity']. '</p>';
-                }
+                $mail->Body = '<table style="max-width: 770px;margin:50px auto 10px;background-color:#fff;padding:50px;border-radius:3px;border-top:solid 10px green;border-left: solid 2px;border-right: solid 2px;border-bottom: solid;">
+                <thead>
+                    <tr>
+                        <th style="text-align:left; padding-bottom: 20px;"><img style="max-width: 250px;" src="https://res.cloudinary.com/dqtbveriz/image/upload/v1711791860/logo2_bfmyws.png" alt="ICP LOGO"></th>
+                        <th style="text-align:right;font-weight:1000; font"> E-INVOICE</th>
+                        
+                    </tr>
+                </thead>';
 
                 $mail->Body .= 
-                '<p style="font-size: 16px;"><strong>Total:</strong> ' . $grandtotal . '</p>
-                <p style="font-size: 16px;"><strong>Full Name:</strong> ' . $product['order_username'] . '</p>
-                <p style="font-size: 16px;"><strong>Phone Number:</strong> ' . $product['order_phonenumber'] . '</p>
-                <p style="font-size: 16px;"><strong>Order Address:</strong> ' . $product['order_address'] . '</p>
-                <p style="font-size: 16px;">(The application has been submitted successfully, kindly wait for the approvals through email!)</p>';
+                '<tr>
+                <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
+                        <p style="margin:0 0 10px 0;padding:0;font-size:14px; float:right;"><span style="display:block;font-weight:bold;font-size:13px">Purchased Date</span>' . $product_data[0]['date_added']. '</p>
+                        <strong>Grand Total: </strong> ₱' . $grandtotal . '<br>
+                        <strong >Status: </strong><b style="color:green;font-weight:normal;margin:0">' . $product_data[0]['status']. '</b><br>
+                        <strong>Transaction ID: </strong> ' . $product_data[0]['group_order'] . '
+            </td>
+                </tr>';
+                foreach ($product_data as $product) {
+                    $mail->Body .= '
+                    <tr>
+                                    <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
+                                        <!-- Product details -->
+                                        <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:150px">Product</span><b style="font-weight:normal;margin:0">' . $product['product_name']. '</b></p>
+                                        <p style="font-size:14px;margin:0 0 0 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Order amount</span>₱ ' . $product['product_price']. '</p>
+                                        <p style="font-size:14px;margin:0 0 0 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Product Quantity</span>'. $product['product_quantity']. '</p>
+                                    </td>
+                                </tr>';
+                            }
 
-                $mail->AltBody = 'Application Submitted Successfully
-                Total: ' . $grandtotal . '
-                Full Name: ' . $product['order_username'] . '
-                Phone Number: '. $product['order_phonenumber'] . '
-                Order Address: ' . $product['order_address'] . '
-                (The application has been submitted successfully, kindly wait for the approvals through email!)';
+                  $mail->Body .= '
+                                <tr>
+                                    <td style="height:35px;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%;padding:20px;vertical-align:top">
+                                        <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px">Name</span> ' . $product['order_username'] . '</p>
+                                        <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">ID No.</span>' . $product['customer_id'] . '</p>
+                                    </td>
+                                    <td style="width:50%;padding:20px;vertical-align:top">
+                                        <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Address</span>' . $product['order_address'] . '</p>
+                                        <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Order Payment</span'. $product['order_payment'] . '</p>
+                                        <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Phone Number</span>'. $product['order_phonenumber'] . '</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> (The application has been submitted successfully, kindly wait for the approvals through email!)';
+                                    
+                $mail->AltBody =  '
+                <tr>
+                            <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
+                                <!-- Product details -->
+                                <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:150px">Product</span><b style="font-weight:normal;margin:0">' . $product['product_name']. '</b></p>
+                                <p style="font-size:14px;margin:0 0 0 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Order amount</span>₱ ' . $product['product_price']. '</p>
+                                <p style="font-size:14px;margin:0 0 0 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Product Quantity</span>'. $product['product_quantity']. '</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height:35px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:50%;padding:20px;vertical-align:top">
+                                <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px">Name</span> ' . $product['order_username'] . '</p>
+                                <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">ID No.</span>' . $product['customer_id'] . '</p>
+                            </td>
+                            <td style="width:50%;padding:20px;vertical-align:top">
+                                <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Address</span>' . $product['order_address'] . '</p>
+                                <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Order Payment</span' . $product_data[0]['order_payment']. '</</p>
+                                <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Phone Number</span>'. $product['order_phonenumber'] . '</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table> (The application has been submitted successfully, kindly wait for the approvals through email!)';
 
                 // Send email
                 if ($mail->send()) {
