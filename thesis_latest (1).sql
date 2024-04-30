@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2024 at 07:19 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.2
+-- Generation Time: Apr 30, 2024 at 08:46 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,7 +41,7 @@ CREATE TABLE `address` (
   `street` varchar(30) NOT NULL,
   `zip_code` int(11) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `address`
@@ -52,7 +52,9 @@ INSERT INTO `address` (`id`, `group_id`, `customer_id`, `first_name`, `last_name
 (3, '661757b4787d1', 31, 'TIAN', 'Deladia', '09396004981', 'Region II (Cagayan Valley)', 'Isabela', 'Cabagan', 'Casibarag Norte', 'phase 3', 3014, '2024-04-11 11:23:32'),
 (4, '66175cb5daa58', 38, 'Tian', 'Gaming', '09396004981', 'Region III (Central Luzon)', 'Bulacan', 'Pandi', 'Pinagkuartelan', 'phase 3', 3014, '2024-04-11 11:44:53'),
 (5, '6617f47fc4641', 37, 'Romelyn', 'Leynes', '09396004981', 'Region III (Central Luzon)', 'Bulacan', 'Bocaue', 'Bagumbayan', 'jknj', 3921, '2024-04-11 22:32:31'),
-(6, '6619f99915ece', 39, 'Christian', 'Deladia', '09396004981', 'Region III (Central Luzon)', 'Bulacan', 'Pandi', 'Pinagkuartelan', 'phase 3', 3014, '2024-04-13 11:18:49');
+(6, '6619f99915ece', 39, 'Christian', 'Deladia', '09396004981', 'Region III (Central Luzon)', 'Bulacan', 'Pandi', 'Pinagkuartelan', 'phase 3', 3014, '2024-04-13 11:18:49'),
+(7, '6623ac789b39d', 36, 'MARITES', 'GARCIA', '09351234567', 'Region III (Central Luzon)', 'Bulacan', 'Pandi', 'Poblacion', '21 Pritil Street', 301414, '2024-04-20 19:52:24'),
+(8, '66291206d6317', 36, 'MARITES', 'GARCIA', '09060227839', 'Region IV-A (CALABARZON)', 'Laguna', 'Bay', 'Calo', '21 Pritil Street', 301414, '2024-04-24 22:07:02');
 
 -- --------------------------------------------------------
 
@@ -71,7 +73,7 @@ CREATE TABLE `admin_login` (
   `password` varchar(300) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin_login`
@@ -98,7 +100,7 @@ CREATE TABLE `admin_login_deactive` (
   `password` varchar(300) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -137,7 +139,7 @@ CREATE TABLE `binyag` (
   `copy_birth_certificate` varchar(500) NOT NULL,
   `copy_marriage_certificate` varchar(500) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -176,7 +178,7 @@ CREATE TABLE `binyag_approve` (
   `copy_birth_certificate` varchar(255) NOT NULL,
   `copy_marriage_certificate` varchar(200) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -215,7 +217,7 @@ CREATE TABLE `binyag_complete` (
   `copy_birth_certificate` varchar(255) NOT NULL,
   `copy_marriage_certificate` varchar(200) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `binyag_complete`
@@ -264,7 +266,7 @@ CREATE TABLE `binyag_decline` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `reason` varchar(200) NOT NULL,
   `remarks` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `binyag_decline`
@@ -288,7 +290,7 @@ CREATE TABLE `binyag_outside` (
   `father_name` varchar(20) NOT NULL,
   `current_address` varchar(50) NOT NULL,
   `baptismal_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -306,7 +308,7 @@ CREATE TABLE `binyag_request_certificate` (
   `mother_maidenname` varchar(255) DEFAULT NULL,
   `purpose` varchar(255) DEFAULT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -328,7 +330,7 @@ CREATE TABLE `binyag_request_certificate_approve` (
   `godfather` varchar(255) DEFAULT NULL,
   `godmother` varchar(255) DEFAULT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `binyag_request_certificate_approve`
@@ -357,7 +359,7 @@ CREATE TABLE `binyag_request_certificate_complete` (
   `godfather` varchar(255) DEFAULT NULL,
   `godmother` varchar(255) DEFAULT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -377,7 +379,7 @@ CREATE TABLE `binyag_request_certificate_decline` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `reason` varchar(50) NOT NULL,
   `remarks` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -399,7 +401,7 @@ CREATE TABLE `blessing` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -421,7 +423,7 @@ CREATE TABLE `blessing_approve` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `blessing_approve`
@@ -450,7 +452,7 @@ CREATE TABLE `blessing_complete` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `blessing_complete`
@@ -481,7 +483,7 @@ CREATE TABLE `blessing_decline` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `reason` varchar(500) NOT NULL,
   `remarks` varchar(400) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `blessing_decline`
@@ -499,7 +501,7 @@ INSERT INTO `blessing_decline` (`id`, `client_id`, `user_email`, `user_first_nam
 CREATE TABLE `form_data` (
   `id` int(11) NOT NULL,
   `image_path` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `form_data`
@@ -540,7 +542,7 @@ CREATE TABLE `funeral` (
   `mass_location` varchar(50) NOT NULL,
   `burial_place` varchar(50) NOT NULL,
   `date_added` varchar(250) NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -571,7 +573,7 @@ CREATE TABLE `funeral_approve` (
   `mass_location` varchar(50) NOT NULL,
   `burial_place` varchar(50) NOT NULL,
   `date_added` varchar(250) NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -602,7 +604,7 @@ CREATE TABLE `funeral_complete` (
   `mass_location` varchar(50) NOT NULL,
   `burial_place` varchar(50) NOT NULL,
   `date_added` varchar(250) NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `funeral_complete`
@@ -642,7 +644,7 @@ CREATE TABLE `funeral_decline` (
   `date_added` varchar(250) NOT NULL DEFAULT current_timestamp(),
   `reason` varchar(50) NOT NULL,
   `remarks` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `funeral_decline`
@@ -650,6 +652,34 @@ CREATE TABLE `funeral_decline` (
 
 INSERT INTO `funeral_decline` (`id`, `reference_id`, `deceased_fullname`, `date_of_death`, `civil_status`, `spouse_name`, `mother_name`, `father_name`, `age`, `number_of_child`, `current_address`, `cause_of_death`, `has_sacrament`, `client_name`, `relationship`, `contact_number`, `allowed_to_mass`, `mass_time`, `mass_date`, `mass_location`, `burial_place`, `date_added`, `reason`, `remarks`) VALUES
 (4, '661771c286efb', 'Juan', '2024-04-11', 'Married', 'Maria', 'Kath', 'Geri', 99, 9, 'Pandi', 'Heart Attack', 'Yes', 'LENLEN', 'Wala', '09396004981', 'Yes', '13:12:00', '2024-04-11', 'Pandi', 'Pandi', '2024-04-11 13:14:42', 'Concerns about the Purpose or Intent', 'WWWWWWWWWW');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hold_otp`
+--
+
+CREATE TABLE `hold_otp` (
+  `id` int(12) NOT NULL,
+  `otp` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `birthday` date NOT NULL,
+  `gender` text NOT NULL,
+  `mobile_number` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `date_created` date NOT NULL DEFAULT current_timestamp(),
+  `expiry_time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hold_otp`
+--
+
+INSERT INTO `hold_otp` (`id`, `otp`, `first_name`, `last_name`, `birthday`, `gender`, `mobile_number`, `email`, `password`, `date_created`, `expiry_time`) VALUES
+(75, 400655, 'MARITES', 'GARCIA', '2024-05-02', 'male', 2147483647, 'cardinalmarites1@gmail.com', '$2y$10$IwNId9Uwktw5d9dqR4RO9OhdOSys1kRgn9/9/rrKTOBX69s84i.dK', '2024-05-01', '2024-05-01 01:56:57'),
+(76, 962091, 'MARITES', 'GARCIA', '2024-05-01', 'male', 2147483647, 'cardinalmarites1@gmail.com', '$2y$10$CSuHoqdRabdRqFCVh3TRf.gPi/o8zqdyAJly1.qtHMHRxC/SzCwna', '2024-05-01', '2024-05-01 02:04:16');
 
 -- --------------------------------------------------------
 
@@ -667,7 +697,7 @@ CREATE TABLE `inventory` (
   `product_image` varchar(200) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `inventory`
@@ -702,7 +732,7 @@ CREATE TABLE `login` (
   `email` varchar(50) NOT NULL,
   `password` varchar(225) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `login`
@@ -715,7 +745,6 @@ INSERT INTO `login` (`id`, `first_name`, `last_name`, `birthday`, `gender`, `mob
 (31, 'yanyan', 'yan', '2023-10-20', 'male', '09789456123', 'yanyan@gmail.com', '$2y$10$H//o4pPBlP9r1c3y.Il3ue1wcKMQOAcQWXTzpjrmlto8rTx38XhkC', '2023-10-20 22:14:27'),
 (32, 'lenlen', 'len', '2023-10-01', 'female', '09512777643', 'lenlen@gmail.com', '$2y$10$YK4pcPgHg.64srqQsxDiKezNKDibkM3Z/2jaYCcw7iwSBZ7jRLe6i', '2023-10-22 13:57:44'),
 (33, 'Christian', 'Deladia', '2023-01-24', 'male', '09396004981', 'tian@gmail.com', '$2y$10$Dr8uP9D0KNXRQBtkaPFlMuPejEYu21wmImQEv9mWDX.DZRTG36W4G', '2023-12-11 09:07:22'),
-(35, 'MARITES', 'GARCIA', '2024-03-15', 'male', '09060227839', 'redcardinal1551@gmail.com', '$2y$10$U0QNvIWvzUT/JdPmDsqhwenrY1ATllsEUg65.OMHZ.YgVwXfEzL9C', '2024-03-04 18:15:58'),
 (36, 'MARITES', 'GARCIA', '2024-03-06', 'female', '09060227839', 'redryan1515@gmail.com', '$2y$10$uO25KQqK9zsieoVt1.9NVuvLBpgGBZBlwIDK20uyCCalRJpBZR5gq', '2024-03-28 19:31:18'),
 (37, 'Romelyn', 'Leynes', '2001-11-02', 'female', '09751135769', 'lenlenleynes0222@gmail.com', '$2y$10$WKY9eOaFogcGC2ZrFNrVwO10BEiE.2N9yCqrmgBXXuxQnAsIwbe.C', '2024-04-01 17:10:28'),
 (39, 'Christian', 'Deladia', '2024-04-09', 'male', '09396004981', 'tiangaming000@gmail.com', '$2y$10$0Y/YxVH1Wkm7KeMlaN7yjOAy5iQpciuoj1ygWtP38JM0ZdPem55Ca', '2024-04-13 11:12:08');
@@ -738,7 +767,15 @@ CREATE TABLE `mass` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `customer_id` int(11) NOT NULL,
   `customer_name` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mass`
+--
+
+INSERT INTO `mass` (`id`, `client_id`, `user_email`, `user_first_name`, `reference_id`, `purpose`, `name`, `date`, `date_added`, `customer_id`, `customer_name`) VALUES
+(119, 36, 'redryan1515@gmail.com', 'MARITES', 'mass-66291252cee46', 'For Thanks Giving', 'awdaw', '2024-04-26', '2024-04-24 22:08:18', 0, ''),
+(120, 36, 'redryan1515@gmail.com', 'MARITES', 'mass-662917336ddf9', 'For Thanks Giving', 'awdaw', '2024-04-26', '2024-04-24 22:29:07', 0, '');
 
 -- --------------------------------------------------------
 
@@ -756,7 +793,7 @@ CREATE TABLE `mass_approve` (
   `name` varchar(255) NOT NULL,
   `date` date NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -774,7 +811,7 @@ CREATE TABLE `mass_complete` (
   `name` varchar(255) NOT NULL,
   `date` date NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `mass_complete`
@@ -801,7 +838,7 @@ CREATE TABLE `mass_decline` (
   `reason` varchar(200) NOT NULL,
   `remarks` varchar(200) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -817,7 +854,7 @@ CREATE TABLE `notification` (
   `status` varchar(50) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `customer_name` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `notification`
@@ -830,7 +867,9 @@ INSERT INTO `notification` (`id`, `reference_id`, `date_added`, `services`, `sta
 (113, 'wedding-6619e0d7d52f', '2024-04-13 09:33:11', 'Wedding', 'read', 38, 'Tian Gaming'),
 (114, 'wedding-6619e3b882f2', '2024-04-13 09:45:28', 'Wedding', 'read', 38, 'Tian Gaming'),
 (115, 'mass-6619fa0f03a05', '2024-04-13 11:20:47', 'Mass', 'read', 39, 'Christian Deladia'),
-(116, '6619facb29bf1', '2024-04-13 11:23:55', 'Baptismal Certificate', 'read', 39, 'Christian Deladia');
+(116, '6619facb29bf1', '2024-04-13 11:23:55', 'Baptismal Certificate', 'read', 39, 'Christian Deladia'),
+(117, 'mass-66291252cee46', '2024-04-24 22:08:18', 'Mass', 'unread', 36, 'MARITES GARCIA'),
+(118, 'mass-662917336ddf9', '2024-04-24 22:29:07', 'Mass', 'unread', 36, 'MARITES GARCIA');
 
 -- --------------------------------------------------------
 
@@ -849,7 +888,7 @@ CREATE TABLE `notification_client` (
   `apply_status` varchar(50) NOT NULL,
   `reason` varchar(100) NOT NULL,
   `remarks` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `notification_client`
@@ -876,7 +915,7 @@ CREATE TABLE `notification_decline` (
   `apply_status` varchar(50) NOT NULL,
   `reason` varchar(50) NOT NULL,
   `remarks` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `notification_decline`
@@ -893,20 +932,20 @@ INSERT INTO `notification_decline` (`id`, `reference_id`, `date_added`, `service
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
-  `group_order` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `group_order` varchar(250) DEFAULT NULL,
   `customer_id` int(11) NOT NULL,
-  `product_name` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_description` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_name` varchar(250) NOT NULL,
+  `product_description` varchar(250) NOT NULL,
   `product_price` double NOT NULL DEFAULT 0,
   `product_quantity` int(20) NOT NULL,
-  `product_image` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_image` varchar(250) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
-  `order_username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_phonenumber` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_address` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_payment` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_courier` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+  `order_username` varchar(50) NOT NULL,
+  `order_phonenumber` varchar(50) NOT NULL,
+  `order_address` varchar(150) NOT NULL,
+  `order_payment` varchar(50) NOT NULL,
+  `order_courier` varchar(50) NOT NULL,
+  `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -928,7 +967,167 @@ INSERT INTO `orders` (`id`, `group_order`, `customer_id`, `product_name`, `produ
 (102, '66223e2844c91', 39, 'San Roque', '', 189, 2, 'chibi4.jpeg', '2024-04-19 17:49:28', 'Christian Deladia', '09396004981', 'phase 3, Pandi, Bulacan,                            Region III (Central Luzon), 3014', 'Cash on Delivery', 'J&T', 'Order Placed'),
 (103, '66223e999276c', 39, 'San Roque', '', 189, 2, 'chibi4.jpeg', '2024-04-19 17:51:21', 'Christian Deladia', '09396004981', 'phase 3, Pandi, Bulacan,                            Region III (Central Luzon), 3014', 'Cash on Delivery', 'J&T', 'Order Placed'),
 (104, '66223ec9dff87', 39, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-19 17:52:09', 'Christian Deladia', '09396004981', 'phase 3, Pandi, Bulacan,                            Region III (Central Luzon), 3014', 'Cash on Delivery', 'J&T', 'Order Placed'),
-(105, '66231a7258dbb', 31, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-20 09:29:22', 'TIAN Deladia', '09396004981', 'phase 3, Cabagan, Isabela,                            Region II (Cagayan Valley), 3014', 'Cash on Delivery', 'J&T', 'Order Placed');
+(105, '66231a7258dbb', 31, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-20 09:29:22', 'TIAN Deladia', '09396004981', 'phase 3, Cabagan, Isabela,                            Region II (Cagayan Valley), 3014', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(106, '6623ac8117913', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-20 19:52:33', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(107, '6623b306cf58b', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-20 20:20:22', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(108, '6623b3853dfd7', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-20 20:22:29', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(109, '6623b94065dd3', 36, 'Sample Product', '', 1000, 1, '042f0ff7-b013-470e-a794-038a2529ac50.jfif', '2024-04-20 20:46:56', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(110, '6623be92b6a1c', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-20 21:09:38', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(111, '6623beb8c1135', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-20 21:10:16', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(112, '6623bec6e9496', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-20 21:10:30', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(113, '6623bedb826fa', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-20 21:10:51', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(114, '6623bf27a2f12', 36, 'Holy Cross', '', 175, 1, 'chibi8.jpeg', '2024-04-20 21:12:07', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(115, '6623bf63bd8d8', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-20 21:13:07', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(116, '6623bfb33bfb6', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-20 21:14:27', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                            Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(117, '6623c5af1d896', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-20 21:39:59', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(118, '6623c5ef5622c', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-20 21:41:03', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(119, '6623c60f648a3', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-20 21:41:35', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(120, '6623c62726374', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-20 21:41:59', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(121, '6623c650e9eb6', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-20 21:42:40', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(122, '6623c650e9eb6', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-20 21:42:40', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(123, '662738e3036cd', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-23 12:28:19', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(124, '66273e5c50ddd', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-23 12:51:40', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(125, '66273e6e5a681', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-23 12:51:58', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(126, '662742915e060', 36, 'Holy Trinity', '', 449, 2, 'chibi1.jpeg', '2024-04-23 13:09:37', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(127, '662749bd868e9', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-23 13:40:13', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(128, '66274f06b1433', 36, 'Sample Product', '', 1000, 1, '042f0ff7-b013-470e-a794-038a2529ac50.jfif', '2024-04-23 14:02:46', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(129, '66274f06b1433', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-23 14:02:46', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(130, '66274f1991a15', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-23 14:03:05', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(131, '66274f6665125', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-23 14:04:22', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(132, '66274f8f4d904', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-23 14:05:03', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(133, '66274fb566fa7', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-23 14:05:41', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(134, '662750d0a399a', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-23 14:10:24', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(135, '662750ef83efc', 36, 'Sample Product', '', 1000, 1, '042f0ff7-b013-470e-a794-038a2529ac50.jfif', '2024-04-23 14:10:55', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(136, '66291193b3532', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-24 22:05:07', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(137, '662a2690b512c', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-25 17:46:56', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(138, '662a28c6c7e9b', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-25 17:56:22', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(139, '662a294838218', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-25 17:58:32', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(140, '662a363b6b3bb', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-25 18:53:47', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(141, '662a3767c86c2', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-25 18:58:47', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(142, '662a3767c86c2', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-25 18:58:47', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(143, '662a3767c86c2', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-25 18:58:47', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(144, '662a50ff97221', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-25 20:47:59', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(145, '662a50ff97221', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-25 20:47:59', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(146, '662a50ff97221', 36, 'The Resurrection of Jesus', '', 200, 1, 'chibi9.jpeg', '2024-04-25 20:47:59', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(147, '662a55b486a95', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-25 21:08:04', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(148, '662a55b486a95', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-25 21:08:04', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(149, '662a55cc49711', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-25 21:08:28', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(150, '662a55cc49711', 36, 'Our Lady of Mediatrix', '', 388, 1, 'chibi7.jpeg', '2024-04-25 21:08:28', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(151, '662a588bcc83e', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-25 21:20:11', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(152, '662a59f0a04f5', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-25 21:26:08', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(153, '662a5a1adf7c7', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-25 21:26:50', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(154, '662a5a3d449b3', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-25 21:27:25', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(155, '662a5a5f18401', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-25 21:27:59', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(156, '662bc4fb94868', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-26 23:15:07', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(157, '662bc5234c98d', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-26 23:15:47', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(158, '662bc5234c98d', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-26 23:15:47', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(159, '662bc5234c98d', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-26 23:15:47', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(160, '662bc58b073f7', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-26 23:17:31', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(161, '662bc58b073f7', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-26 23:17:31', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(162, '662bc9099012d', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-26 23:32:25', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(163, '662bd6ebe1ce0', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-27 00:31:39', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(164, '662bd6ebe1ce0', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 00:31:39', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(165, '662bda66e12b6', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 00:46:30', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(166, '662bdb4756a46', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 00:50:15', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(167, '662bdb4756a46', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-27 00:50:15', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(168, '662bdbc428b6e', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 00:52:20', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(169, '662bdbc428b6e', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-27 00:52:20', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(170, '662bdf87a3466', 36, 'Immaculate Heart of Mary', '', 275, 1, 'chibi10.jpeg', '2024-04-27 01:08:23', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(171, '662bdf87a3466', 36, 'The Resurrection of Jesus', '', 200, 1, 'chibi9.jpeg', '2024-04-27 01:08:23', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(172, '662be202c3df0', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-27 01:18:58', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(173, '662be202c3df0', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 01:18:58', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(174, '662be27f1c966', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-27 01:21:03', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(175, '662be27f1c966', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 01:21:03', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(176, '662be2dd9ba59', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-27 01:22:37', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(177, '662be356b1916', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 01:24:38', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(178, '662be3c4d8b76', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-27 01:26:28', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(179, '662be3c4d8b76', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 01:26:28', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(180, '662be6bc13d47', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-27 01:39:08', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(181, '662be6bc13d47', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 01:39:08', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(182, '662be6bc13d47', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-27 01:39:08', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(183, '662bed4967608', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-27 02:07:05', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(184, '662bed4967608', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 02:07:05', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(185, '662bf2d197636', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-27 02:30:41', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(186, '662bf2d197636', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-27 02:30:41', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(187, '662bf67a0b941', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-27 02:46:18', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(188, '662bf67a0b941', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-27 02:46:18', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(189, '662c371b47b7c', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-27 07:22:03', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(190, '662cd284887fd', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-27 18:25:08', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(191, '662cd284887fd', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-27 18:25:08', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(192, '662dd74f26c2e', 36, 'Sacred Heart of Jesus', '', 339, 2, 'chibi2.jpeg', '2024-04-28 12:57:51', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(193, '662dd74f26c2e', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 12:57:51', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(194, '662dd760e3134', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 12:58:08', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(195, '662dd760e3134', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 12:58:08', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(196, '662de5d7d637e', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 13:59:51', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(197, '662de5d7d637e', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 13:59:52', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(198, '662de74fc3822', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 14:06:07', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(199, '662de74fc3822', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 14:06:07', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(200, '662de81883b58', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 14:09:28', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(201, '662de81883b58', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 14:09:28', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(202, '662de84f4b4aa', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 14:10:23', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(203, '662de84f4b4aa', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 14:10:23', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(204, '662de8a6b8411', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 14:11:50', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(205, '662de8a6b8411', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 14:11:50', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(206, '662de8ce3bee0', 36, 'St. Rita of Cascia', '', 249, 2, 'chibi3.jpeg', '2024-04-28 14:12:30', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(207, '662de8ce3bee0', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 14:12:30', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(208, '662deb87972a4', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 14:24:07', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(209, '662deb87972a4', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 14:24:07', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(210, '662e2983c3d45', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 18:48:35', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(211, '662e29b7de72d', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 18:49:27', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(212, '662e29b7de72d', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 18:49:27', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(213, '662e29b7de72d', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 18:49:28', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(214, '662e418852f64', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 20:31:04', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(215, '662e418852f64', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 20:31:04', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(216, '662e420ede543', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 20:33:18', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(217, '662e420ede543', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 20:33:18', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(218, '662e456e11b74', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 20:47:42', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(219, '662e456e11b74', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 20:47:42', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(220, '662e4647b5362', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 20:51:19', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(221, '662e4647b5362', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 20:51:19', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(222, '662e5ba7591af', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 22:22:31', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(223, '662e5ba7591af', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 22:22:31', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(224, '662e5bc075b19', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 22:22:56', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(225, '662e5db949aa1', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 22:31:21', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(226, '662e5db949aa1', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 22:31:21', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(227, '662e5f207985f', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 22:37:20', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(228, '662e5f207985f', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 22:37:20', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(229, '662e5f207985f', 36, 'Sample Product', '', 1000, 1, '042f0ff7-b013-470e-a794-038a2529ac50.jfif', '2024-04-28 22:37:20', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(230, '662e60f6d3861', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 22:45:10', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(231, '662e60f6d3861', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 22:45:10', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(232, '662e61554066d', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 22:46:45', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(233, '662e61554066d', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 22:46:45', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(234, '662e6250d36b9', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 22:50:56', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(235, '662e6250d36b9', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 22:50:56', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(236, '662e627527b16', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 22:51:33', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(237, '662e627527b16', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 22:51:33', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(238, '662e62e4381f3', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 22:53:24', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(239, '662e62e4381f3', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 22:53:24', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(240, '662e634e399f3', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-28 22:55:10', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(241, '662e634e399f3', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 22:55:10', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(242, '662e634e399f3', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 22:55:10', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(243, '662e63a5e594d', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 22:56:37', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(244, '662e63a5e594d', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-28 22:56:37', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(245, '662e640c86046', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 22:58:20', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(246, '662e6425041d5', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 22:58:45', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(247, '662e6425041d5', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 22:58:45', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(248, '662e64c41c2bc', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 23:01:24', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(249, '662e64c41c2bc', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 23:01:24', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(250, '662e652d5ac3f', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 23:03:09', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(251, '662e652d5ac3f', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 23:03:09', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(252, '662e659f30fef', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 23:05:03', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(253, '662e659f30fef', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 23:05:03', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(254, '662e6664f1683', 36, 'San Roque', '', 189, 2, 'chibi4.jpeg', '2024-04-28 23:08:20', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(255, '662e6664f1683', 36, 'Sample Product', '', 1000, 1, '042f0ff7-b013-470e-a794-038a2529ac50.jfif', '2024-04-28 23:08:20', 'MARITES GARCIA', '09060227839', '21 Pritil Street, Bay, Laguna,                                Region IV-A (CALABARZON), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(256, '662e66a715aa7', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 23:09:27', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(257, '662e66a715aa7', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 23:09:27', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(258, '662e66a715aa7', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 23:09:27', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(259, '662e66cfe069d', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 23:10:07', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(260, '662e66cfe069d', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 23:10:07', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(261, '662e67278f32d', 36, 'Holy Trinity', '', 449, 1, 'chibi1.jpeg', '2024-04-28 23:11:35', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(262, '662e67278f32d', 36, 'St. Rita of Cascia', '', 249, 1, 'chibi3.jpeg', '2024-04-28 23:11:35', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(263, '662e6770d7f17', 36, 'San Roque', '', 189, 1, 'chibi4.jpeg', '2024-04-28 23:12:48', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(264, '662e6770d7f17', 36, 'San Isidro Labrador', '', 249, 1, 'chibi5.jpeg', '2024-04-28 23:12:48', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed'),
+(265, '662e6886d0903', 36, 'Sacred Heart of Jesus', '', 339, 1, 'chibi2.jpeg', '2024-04-28 23:17:26', 'MARITES GARCIA', '09351234567', '21 Pritil Street, Pandi, Bulacan,                                Region III (Central Luzon), 301414', 'Cash on Delivery', 'J&T', 'Order Placed');
 
 -- --------------------------------------------------------
 
@@ -938,20 +1137,20 @@ INSERT INTO `orders` (`id`, `group_order`, `customer_id`, `product_name`, `produ
 
 CREATE TABLE `orders_arrange` (
   `id` int(11) NOT NULL,
-  `group_order` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `group_order` varchar(250) DEFAULT NULL,
   `customer_id` int(11) NOT NULL,
-  `product_name` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_description` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_name` varchar(250) NOT NULL,
+  `product_description` varchar(250) NOT NULL,
   `product_price` double NOT NULL DEFAULT 0,
   `product_quantity` int(20) NOT NULL,
-  `product_image` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_image` varchar(250) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
-  `order_username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_phonenumber` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_address` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_payment` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_courier` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+  `order_username` varchar(50) NOT NULL,
+  `order_phonenumber` varchar(50) NOT NULL,
+  `order_address` varchar(150) NOT NULL,
+  `order_payment` varchar(50) NOT NULL,
+  `order_courier` varchar(50) NOT NULL,
+  `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -979,7 +1178,7 @@ CREATE TABLE `sickcall` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `date` date NOT NULL,
   `time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1006,7 +1205,7 @@ CREATE TABLE `sickcall_approve` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `date` date NOT NULL,
   `time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1033,7 +1232,7 @@ CREATE TABLE `sickcall_complete` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `date` date NOT NULL,
   `time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sickcall_complete`
@@ -1069,7 +1268,7 @@ CREATE TABLE `sickcall_decline` (
   `time` time NOT NULL,
   `reason` varchar(250) NOT NULL,
   `remarks` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sickcall_decline`
@@ -1106,7 +1305,7 @@ CREATE TABLE `wedding` (
   `bride_father_name` varchar(50) NOT NULL,
   `bride_mother_name` varchar(50) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `wedding`
@@ -1143,7 +1342,7 @@ CREATE TABLE `wedding_approve` (
   `bride_father_name` varchar(50) NOT NULL,
   `bride_mother_name` varchar(50) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `wedding_approve`
@@ -1177,7 +1376,7 @@ CREATE TABLE `wedding_banns` (
   `bride_mother_name` varchar(50) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `wedding_banns`
@@ -1219,7 +1418,7 @@ CREATE TABLE `wedding_complete` (
   `bride_father_name` varchar(50) NOT NULL,
   `bride_mother_name` varchar(50) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `wedding_complete`
@@ -1258,7 +1457,7 @@ CREATE TABLE `wedding_decline` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `reason` varchar(50) NOT NULL,
   `remarks` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `wedding_decline`
@@ -1286,7 +1485,7 @@ CREATE TABLE `wedding_request_certificate` (
   `bride_lname` varchar(250) NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1307,7 +1506,7 @@ CREATE TABLE `wedding_request_certificate_approve` (
   `bride_lname` varchar(250) NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1328,7 +1527,7 @@ CREATE TABLE `wedding_request_certificate_complete` (
   `bride_lname` varchar(250) NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1351,7 +1550,7 @@ CREATE TABLE `wedding_request_certificate_decline` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `reason` varchar(200) NOT NULL,
   `remarks` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -1490,6 +1689,12 @@ ALTER TABLE `funeral_complete`
 ALTER TABLE `funeral_decline`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `reference_id` (`reference_id`);
+
+--
+-- Indexes for table `hold_otp`
+--
+ALTER TABLE `hold_otp`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `inventory`
@@ -1661,7 +1866,7 @@ ALTER TABLE `wedding_request_certificate_decline`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `admin_login`
@@ -1778,6 +1983,12 @@ ALTER TABLE `funeral_decline`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `hold_otp`
+--
+ALTER TABLE `hold_otp`
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+
+--
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
@@ -1787,13 +1998,13 @@ ALTER TABLE `inventory`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `mass`
 --
 ALTER TABLE `mass`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `mass_approve`
@@ -1817,7 +2028,7 @@ ALTER TABLE `mass_decline`
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `notification_client`
@@ -1835,7 +2046,7 @@ ALTER TABLE `notification_decline`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
 
 --
 -- AUTO_INCREMENT for table `orders_arrange`
