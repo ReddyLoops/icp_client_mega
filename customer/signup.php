@@ -1,36 +1,34 @@
 <?php
 include '../connect.php';
-
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
     extract($_POST);
 
-$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-$sql = "INSERT INTO `hold_otp` (`first_name`, `last_name`, `birthday`, `gender`, `mobile_number`, `email`, `password`, `date_created`)
-        VALUES (:first_name, :last_name, :birthday, :gender, :mobile_number, :email, :password, NOW())";
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $sql = "INSERT INTO `hold_otp` (`first_name`, `last_name`, `birthday`, `gender`, `mobile_number`, `email`, `password`, `date_created`)
+            VALUES (:first_name, :last_name, :birthday, :gender, :mobile_number, :email, :password, NOW())";
 
-try {
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(":first_name", $first_name);
-    $stmt->bindValue(":last_name", $last_name);
-    $stmt->bindValue(":birthday", $birthday);
-    $stmt->bindValue(":gender", $gender);
-    $stmt->bindValue(":mobile_number", $mobile_number);
-    $stmt->bindValue(":email", $email);
-    // Use the hashed password variable here
-    $stmt->bindValue(":password", $hashed_password);
-    $result = $stmt->execute();
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(":first_name", $first_name);
+        $stmt->bindValue(":last_name", $last_name);
+        $stmt->bindValue(":birthday", $birthday);
+        $stmt->bindValue(":gender", $gender);
+        $stmt->bindValue(":mobile_number", $mobile_number);
+        $stmt->bindValue(":email", $email);
+        // Use the hashed password variable here
+        $stmt->bindValue(":password", $hashed_password);
+        $result = $stmt->execute();
 
-    if ($result) {
-        echo ("<SCRIPT LANGUAGE='JavaScript'>
-            window.location.href='signup_otp.php';
-            </SCRIPT>");
-        exit;
+        if ($result) {
+            // Get the ID of the last inserted row
+            $lastId = $pdo->lastInsertId();
+            // Redirect to send_otp.php with the ID parameter
+            header("Location: send_otp.php?id=$lastId");
+            exit;
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
-
-
 }
 ?>
 <!DOCTYPE HTML>
