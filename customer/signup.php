@@ -20,9 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
         $result = $stmt->execute();
 
         if ($result) {
-            // Get the ID of the last inserted row
             $lastId = $pdo->lastInsertId();
-            // Redirect to send_otp.php with the ID parameter
             header("Location: send_otp.php?id=$lastId");
             exit;
         }
