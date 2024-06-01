@@ -5,7 +5,7 @@
 	$DB_HOST = 'localhost';
 	$DB_USER = 'root';
 	$DB_PASS = '';
-	$DB_NAME = 'thesis_latest';
+	$DB_NAME = 'icp_database';
 
 	try {
 		$pdo = new PDO('mysql:host=' . $DB_HOST . ';dbname=' . $DB_NAME . ';charset=utf8', $DB_USER, $DB_PASS);
@@ -15,7 +15,7 @@
 	$hostname="localhost";
 	$username="root";
 	$password="";
-	$dbname="thesis_latest";
+	$dbname="icp_database";
 	
 	$conn=mysqli_connect($hostname, $username,$password,$dbname);
 ?>

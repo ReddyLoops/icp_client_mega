@@ -20,9 +20,9 @@ $auth_fullname = $auth_fname . ' ' . $auth_lname;
 
 Configuration::instance([
     'cloud' => [
-        'cloud_name' => 'dvgh2uamq',
-        'api_key' => '755223383973197',
-        'api_secret' => 'AxgykDHjhR8urV3iTTXB6zd5xBc'
+        'cloud_name' => 'djj8halfk',
+        'api_key' => '432567652899755',
+        'api_secret' => 'pt5XCkw8DBIduTR1A02h9QIP2Os'
     ],
     'url' => [
         'secure' => true
@@ -73,7 +73,22 @@ $computerized_name_of_sponsors = $_FILES['computerized_name_of_sponsors']['tmp_n
 $result_computerized_name_of_sponsors = (new UploadApi())->upload($computerized_name_of_sponsors);
 $computerized_name_of_sponsors_url = $result_computerized_name_of_sponsors['secure_url'];
 
-
+$date = $_POST["date"];
+$time = $_POST["time"];
+$address = $_POST["address"];
+if ($_POST['address'] !== 'other') {
+    $complete_address = $_POST["complete_address1"];
+} else {
+    $complete_address = $_POST["complete_address2"];
+}
+// $permission = $_POST["permission"];
+if ($_POST['address'] !== 'other') {
+    $permission = 'N/A';
+} else {
+    $permission_certificate = $_FILES['permission']['tmp_name'];
+    $result_permission_certificate = (new UploadApi())->upload($permission_certificate);
+    $permission = $result_permission_certificate['secure_url'];
+}
 $groom_name = $_POST["groom_name"];
 $groom_age = $_POST["groom_age"];
 $groom_father_name = $_POST["groom_father_name"];
@@ -82,7 +97,7 @@ $bride_name = $_POST["bride_name"];
 $bride_age = $_POST["bride_age"];
 $bride_father_name = $_POST["bride_father_name"];
 $bride_mother_name = $_POST["bride_mother_name"];
-
+$status_id = "1";
 // Generate reference ID
 $reference_id = "wedding-" . uniqid();
 $currentUserId = $_SESSION['auth_login']['id']; 
@@ -91,14 +106,14 @@ $result = mysqli_query($conn, $sql);
 if ($result && $row = mysqli_fetch_assoc($result)) {
     $currentUserEmail = $row['email'];
     $currentUserFirstName = $row['first_name'];
-$sql = "INSERT INTO wedding (reference_id, psa_cenomar_photocopy_groom, psa_cenomar_photocopy_bride, baptismal_certificates_groom, baptismal_certificates_bride, confirmation_certificates, psa_birth_certificate_photocopy_groom, psa_birth_certificate_photocopy_bride, id_picture_groom, id_picture_bride, computerized_name_of_sponsors, groom_name, groom_age, groom_father_name, groom_mother_name, bride_name, bride_age, bride_father_name, bride_mother_name) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO wedding (client_id, user_email, user_first_name, reference_id, psa_cenomar_photocopy_groom, psa_cenomar_photocopy_bride, baptismal_certificates_groom, baptismal_certificates_bride, confirmation_certificates, psa_birth_certificate_photocopy_groom, psa_birth_certificate_photocopy_bride, id_picture_groom, id_picture_bride, computerized_name_of_sponsors, groom_name, groom_age, groom_father_name, groom_mother_name, bride_name, bride_age, bride_father_name, bride_mother_name,status_id, date, time, address, complete_address, permission) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = mysqli_prepare($conn, $sql);
 
 if ($stmt) {
     // Bind parameters and execute the statement
-    mysqli_stmt_bind_param($stmt, "sssssssssssssssssss", $reference_id, $psa_cenomar_photocopy_groom_url, $psa_cenomar_photocopy_bride_url, $baptismal_certificates_groom_url, $baptismal_certificates_bride_url, $confirmation_certificates_url, $psa_birth_certificate_photocopy_groom_url, $psa_birth_certificate_photocopy_bride_url, $id_picture_groom_url, $id_picture_bride_url, $computerized_name_of_sponsors_url, $groom_name, $groom_age, $groom_father_name, $groom_mother_name, $bride_name, $bride_age, $bride_father_name, $bride_mother_name);
+    mysqli_stmt_bind_param($stmt, "ssssssssssssssssssssssssssss",$currentUserId, $currentUserEmail, $currentUserFirstName, $reference_id, $psa_cenomar_photocopy_groom_url, $psa_cenomar_photocopy_bride_url, $baptismal_certificates_groom_url, $baptismal_certificates_bride_url, $confirmation_certificates_url, $psa_birth_certificate_photocopy_groom_url, $psa_birth_certificate_photocopy_bride_url, $id_picture_groom_url, $id_picture_bride_url, $computerized_name_of_sponsors_url, $groom_name, $groom_age, $groom_father_name, $groom_mother_name, $bride_name, $bride_age, $bride_father_name, $bride_mother_name, $status_id, $date, $time, $address, $complete_address, $permission);
     
     $checkResult = mysqli_stmt_execute($stmt);
 
@@ -122,10 +137,33 @@ if ($stmt) {
                 $checkResult2 = mysqli_stmt_execute($stmt2);
     
                 if ($checkResult2) {
-                    // Display success message and redirect
+                    // Insert data into schedule table
+                    $services = 'Wedding';
+                    $status = '1';
+                    $date_time = $date . ' ' . $time;
+                    $schedule_sql = "INSERT INTO schedule (reference_id, client_id, date, time, services, status, date_time) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+                    $schedule_stmt = mysqli_prepare($conn, $schedule_sql);
+
+                    if ($schedule_stmt) {
+                        mysqli_stmt_bind_param($schedule_stmt, "sssssss", $reference_id, $currentUserId, $date, $time, $services, $status, $date_time);
+                        $schedule_checkResult = mysqli_stmt_execute($schedule_stmt);
+
+                        mysqli_stmt_close($schedule_stmt);
+
+                        if (!$schedule_checkResult) {
+                            echo "Unsuccessful in inserting data into schedule table.";
+                        }
+                    } else {
+                        echo "Prepared statement error: " . mysqli_error($conn);
+                    }
                     ?>
 <!DOCTYPE html>
-<html lang="en">
+<title>WEDDING APPLICATION - ICP </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="stylesheet" href="confirmation.css">
 <!-- FONT -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
@@ -136,17 +174,35 @@ if ($stmt) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <style>
+body {
+    background-image: url("../image/banner_about.png");
+    background-repeat: no-repeat;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 .form {
+    background-color: white;
     width: 70%;
-    margin-top: 0;
+    margin-top: 1%;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid green;
-    padding: 0px 20px 0px 20px;
-    margin-bottom: 0;
-    height: 100%;
-    line-height: 1.55;
+    border-top: 10px solid green;
+    padding: 20px 20px 0px 20px;
+}
 
+.btn-success {
+    padding: 5px 20px;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 40px;
+    background-color: #28a745;
+    border-color: #28a745;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 </style>
 
@@ -168,7 +224,7 @@ if ($stmt) {
                         </svg>
                     </div>
                 </div>
-                <h1 class="funds-success-done-text">Done!</h1>
+                <h1 class="funds-success-done-text">SUCCESS!</h1>
             </div>
 
             <div class="funds-success-message">
@@ -182,7 +238,45 @@ if ($stmt) {
         </div>
         <hr>
         <fieldset>
-
+            <div class="form-row">
+                <div class="form-group col-md">
+                    <label for="date">Preferred Date:</label>
+                    <input type="text" class="form-control" value="<?= date('M d, Y', strtotime($row["date"])) ?>" disabled>
+                </div>
+                <div class="form-group col-md">
+                    <label for="time">Preferred Time:</label>
+                    <input type="text" class="form-control" value="<?= date('h:i a', strtotime($row["time"])) ?>" disabled>
+                </div>
+            </div>
+            <div class="form-row">
+            <div class="form-group col-md">
+                <label for="complete_address">Complete Address:</label>
+                <input type="text" class="form-control" value="<?= $row["complete_address"] ?>" disabled>
+            </div>
+            <?php if ($row["permission"] === 'N/A'): ?>
+            <div class="form-group col-md">
+                <label for="permission">Permission Certificate:</label>
+                <input type="text" class="form-control" value="<?= $row["permission"] ?>" disabled>
+            </div>
+            <?php else: ?>
+            <div class="form-group col-md">
+                <label for="permission">Permission Certificate:</label>
+                <?php
+                $url = $row["permission"];
+                $hiddenValue = str_repeat('Permission Certificate', strlen(1));
+                ?>
+                <div class="input-group">
+                    <input type="text" class="form-control" value="<?= $hiddenValue ?>" disabled>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary view-btn" data-url="<?= $row["permission"] ?>">View</button>
+                    </div>
+                </div>
+                <div class="file-path" id="permission" style="display: none;">
+                    <?= $row["permission"] ?>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
             <!-- Groom Information -->
             <div class="form-row">
                 <div class="form-group col-md">
@@ -401,8 +495,8 @@ if ($stmt) {
         </fieldset>
         <input type="hidden" id="file-path" value="">
         <div class="modal-footer">
-            <a href="../send_baptismal_application.php?id=<?= $row['id'] ?>"><button type="button"
-                    class="btn btn-success">OK</button></a>
+            <a href="../send_wedding_application.php?id=<?= $row['id'] ?>"><button type="button"
+                    class="btn btn-success">DONE →</button></a>
         </div>
     </div>
     <div id="imageModal" class="modal_pic">

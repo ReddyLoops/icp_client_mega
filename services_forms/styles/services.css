@@ -1,5 +1,5 @@
 
-.modal-dialog {
+.modal-fullsccreen {
   max-width: 1200px !important;
   margin: 1.75rem auto;
   font-family: "Montserrat";
@@ -119,3 +119,4 @@
   border-radius: 0 0 10px 10px;
   box-shadow: 20px 10px 20px 5px #eee;
 }
+

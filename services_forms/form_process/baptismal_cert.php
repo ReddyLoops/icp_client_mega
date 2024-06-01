@@ -15,24 +15,33 @@ $auth_fname = $_SESSION['auth_login']['first_name'];
 $auth_lname = $_SESSION['auth_login']['last_name'];
 $auth_fullname = $auth_fname . ' ' . $auth_lname;
 
-$fullname = $_POST["fullname"];
+$child_first_name = $_POST["child_first_name"];
+$mother_maiden_lastname = $_POST["mother_maiden_lastname"];
+$father_lastname = $_POST["father_lastname"];
 $birthdate = $_POST["birthdate"];
 $birthplace = $_POST["birthplace"];
 $father_fullname = $_POST["father_fullname"];
 $mother_maidenname = $_POST["mother_maidenname"];
 $purpose = $_POST["purpose"];
+$status_id = "1";
 
 // Generate reference ID
 $reference_id = uniqid();
-
+$currentUserId = $_SESSION['auth_login']['id']; 
+$sql = "SELECT * FROM login WHERE id = '$currentUserId'";
+$result = mysqli_query($conn, $sql);
+if ($result && $row = mysqli_fetch_assoc($result)) {
+    $currentUserEmail = $row['email'];
+    $currentUserFirstName = $row['first_name'];
+}
 // Insert data into binyag_request_certificate table
-$sql = "INSERT INTO binyag_request_certificate (reference_id, fullname, birthdate, birthplace, father_fullname, mother_maidenname, purpose) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO binyag_request_certificate (client_id, user_email, user_first_name, reference_id, child_first_name, mother_maiden_lastname, father_lastname, birthdate, birthplace, father_fullname, mother_maidenname, purpose,status_id) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt1 = mysqli_prepare($conn, $sql);
 
 if ($stmt1) {
-    mysqli_stmt_bind_param($stmt1, "sssssss", $reference_id, $fullname, $birthdate, $birthplace, $father_fullname, $mother_maidenname, $purpose);
+    mysqli_stmt_bind_param($stmt1, "sssssssssssss", $currentUserId, $currentUserEmail, $currentUserFirstName, $reference_id, $child_first_name, $mother_maiden_lastname, $father_lastname, $birthdate, $birthplace, $father_fullname, $mother_maidenname, $purpose, $status_id);
 
     $checkResult = mysqli_stmt_execute($stmt1);
 
@@ -56,11 +65,14 @@ if ($stmt1) {
                 $checkResult2 = mysqli_stmt_execute($stmt2);
     
                 if ($checkResult2) {
-                    // Display success message and redirect
+                
                     ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<title>BAPTISMAL CERTIFICATE - ICP </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="stylesheet" href="confirmation.css">
 <!-- FONT -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
@@ -70,6 +82,37 @@ if ($stmt1) {
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style>
+body {
+    background-image: url("../image/banner_about.png");
+    background-repeat: no-repeat;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.form {
+    background-color: white;
+    width: 70%;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    border-top: 10px solid green;
+    padding: 20px 20px 0px 20px;
+}
+.btn-success {
+    padding: 5px 20px;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 40px;
+    background-color: #28a745;
+    border-color: #28a745;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+</style>
 
 <body>
 
@@ -90,7 +133,7 @@ if ($stmt1) {
                     </div>
                 </div>
 
-                <h1 class="funds-success-done-text">Done!</h1>
+                <h1 class="funds-success-done-text">SUCCESS!</h1>
             </div>
 
             <div class="funds-success-message">
@@ -104,22 +147,19 @@ if ($stmt1) {
             </div>
         </div>
 
-        <style>
-        .form {
-            width: 70%;
-            margin-top: 1%;
-            margin-left: auto;
-            margin-right: auto;
-            border: 2px solid green;
-            padding: 20px 20px 0px 20px;
-
-        }
-        </style>
         <hr>
         <div class="form-row">
             <div class="form-group col-md">
-                <label for="fullname">Full Name:</label>
-                <input type="text" class="form-control" value="<?= $row["fullname"] ?>" disabled>
+                <label for="child_first_name">Child's First Name:</label>
+                <input type="text" class="form-control" value="<?= $row["child_first_name"] ?>" disabled>
+            </div>
+            <div class="form-group col-md">
+                <label for="mother_maiden_lastname">Mother's Maiden Lastname:</label>
+                <input type="text" class="form-control" value="<?= $row["mother_maiden_lastname"] ?>" disabled>
+            </div>
+            <div class="form-group col-md">
+                <label for="father_lastname">Father's Lastname:</label>
+                <input type="text" class="form-control" value="<?= $row["father_lastname"] ?>" disabled>
             </div>
         </div>
         <div class="form-row">
@@ -150,10 +190,11 @@ if ($stmt1) {
                 <input type="text" class="form-control" value="<?= $row["purpose"] ?>" disabled>
             </div>
         </div>
-       <div class="modal-footer">
-                <a href="../send_baptismal_cert.php?id=<?= $row['id'] ?>"><button type="button" class="btn btn-success">OK</button></a>
-            </div>
+        <div class="modal-footer">
+            <a href="../send_baptismal_cert.php?id=<?= $row['id'] ?>"><button type="button"
+                    class="btn btn-success">DONE →</button></a>
         </div>
+    </div>
 </body>
 
 </html>

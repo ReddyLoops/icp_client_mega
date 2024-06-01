@@ -21,9 +21,9 @@ $auth_fullname = $auth_fname . ' ' . $auth_lname;
 // Cloudinary configuration
 Configuration::instance([
     'cloud' => [
-        'cloud_name' => 'dvgh2uamq',
-        'api_key' => '755223383973197',
-        'api_secret' => 'AxgykDHjhR8urV3iTTXB6zd5xBc'
+        'cloud_name' => 'djj8halfk',
+        'api_key' => '432567652899755',
+        'api_secret' => 'pt5XCkw8DBIduTR1A02h9QIP2Os'
     ],
     'url' => [
       'secure' => true]]);
@@ -45,14 +45,32 @@ $father_lastname = $_POST["father_lastname"];
 $birthdate = $_POST["birthdate"];
 $months = $_POST["months"];
 $marriage = $_POST["marriage"];
-$marriage_location = ($marriage === "hindi") ? null : mysqli_real_escape_string($conn, $_POST["marriage_location"]);
+if ($_POST['marriage'] === 'hindi') {
+    $marriage_location = 'N/A';
+} else {
+    $marriage_location = $_POST['marriage_location'];
+}
 $birthplace = $_POST["birthplace"];
-$baptismal_date = $_POST["baptismal_date"];
+$date = $_POST["date"];
+$time = $_POST["time"];
 $father_name = $_POST["father_name"];
 $father_origin_place = $_POST["father_origin_place"];
 $mother_maiden_fullname = $_POST["mother_maiden_fullname"];
 $mother_origin_place = $_POST["mother_origin_place"];
-$current_address = $_POST["current_address"];
+$address = $_POST["address"];
+if ($_POST['address'] !== 'other') {
+    $complete_address = $_POST["complete_address1"];
+} else {
+    $complete_address = $_POST["complete_address2"];
+}
+if ($_POST['address'] !== 'other') {
+    $permission = 'N/A';
+} else {
+    $permission_certificate = $_FILES['permission']['tmp_name'];
+    $result_permission_certificate = (new UploadApi())->upload($permission_certificate);
+    $permission = $result_permission_certificate['secure_url'];
+}
+
 $godfather = $_POST["godfather"];
 $godfather_age = $_POST["godfather_age"];
 $godfather_religion = $_POST["godfather_religion"];
@@ -64,19 +82,26 @@ $godmother_address = $_POST["godmother_address"];
 $client_name = $_POST["client_name"];
 $client_relationship = $_POST["client_relationship"];
 $client_contact_number = $_POST["client_contact_number"];
+$status_id = "1";
 
 // Generate reference ID
 $reference_id = "baptismal-" . uniqid();
-
+$currentUserId = $_SESSION['auth_login']['id']; 
+$sql = "SELECT * FROM login WHERE id = '$currentUserId'";
+$result = mysqli_query($conn, $sql);
+if ($result && $row = mysqli_fetch_assoc($result)) {
+    $currentUserEmail = $row['email'];
+    $currentUserFirstName = $row['first_name'];
+}
 // Prepare SQL statement for insertion
-$sql = "INSERT INTO binyag (reference_id, child_first_name, mother_maiden_lastname, father_lastname, birthdate, months, marriage, marriage_location, birthplace, baptismal_date, father_name, father_origin_place, mother_maiden_fullname, mother_origin_place, current_address, godfather, godfather_age, godfather_religion, godfather_address, godmother, godmother_age, godmother_religion, godmother_address, client_name, client_relationship, client_contact_number, copy_birth_certificate, copy_marriage_certificate) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO binyag (client_id, user_email, user_first_name, reference_id, child_first_name, mother_maiden_lastname, father_lastname, birthdate, months, marriage, marriage_location, birthplace, date, time, father_name, father_origin_place, mother_maiden_fullname, mother_origin_place, address, complete_address, permission, godfather, godfather_age, godfather_religion, godfather_address, godmother, godmother_age, godmother_religion, godmother_address, client_name, client_relationship, client_contact_number, copy_birth_certificate, copy_marriage_certificate, status_id) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = mysqli_prepare($conn, $sql);
 
 if ($stmt) {
     // Bind parameters and execute the statement
-    mysqli_stmt_bind_param($stmt, "ssssssssssssssssssssssssssss", $reference_id, $child_first_name, $mother_maiden_lastname, $father_lastname, $birthdate, $months, $marriage, $marriage_location, $birthplace, $baptismal_date, $father_name, $father_origin_place, $mother_maiden_fullname, $mother_origin_place, $current_address, $godfather, $godfather_age, $godfather_religion, $godfather_address, $godmother, $godmother_age, $godmother_religion, $godmother_address, $client_name, $client_relationship, $client_contact_number, $birth_certificate_url, $marriage_certificate_url);
+    mysqli_stmt_bind_param($stmt, "sssssssssssssssssssssssssssssssssss",$currentUserId, $currentUserEmail, $currentUserFirstName, $reference_id, $child_first_name, $mother_maiden_lastname, $father_lastname, $birthdate, $months, $marriage, $marriage_location, $birthplace, $date, $time, $father_name, $father_origin_place, $mother_maiden_fullname, $mother_origin_place, $address, $complete_address, $permission, $godfather, $godfather_age, $godfather_religion, $godfather_address, $godmother, $godmother_age, $godmother_religion, $godmother_address, $client_name, $client_relationship, $client_contact_number, $birth_certificate_url, $marriage_certificate_url, $status_id);
     
     $checkResult = mysqli_stmt_execute($stmt);
 
@@ -100,10 +125,34 @@ if ($stmt) {
                 $checkResult2 = mysqli_stmt_execute($stmt2);
     
                 if ($checkResult2) {
-                    // Display success message and redirect
+                    // Insert data into schedule table
+                    $services = 'Baptism';
+                    $status = '1';
+                    $date_time = $date . ' ' . $time;
+                    $schedule_sql = "INSERT INTO schedule (reference_id, client_id, date, time, services, status, date_time) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+                    $schedule_stmt = mysqli_prepare($conn, $schedule_sql);
+
+                    if ($schedule_stmt) {
+                        mysqli_stmt_bind_param($schedule_stmt, "sssssss", $reference_id, $currentUserId, $date, $time, $services, $status, $date_time);
+                        $schedule_checkResult = mysqli_stmt_execute($schedule_stmt);
+
+                        mysqli_stmt_close($schedule_stmt);
+
+                        if (!$schedule_checkResult) {
+                            echo "Unsuccessful in inserting data into schedule table.";
+                        }
+                    } else {
+                        echo "Prepared statement error: " . mysqli_error($conn);
+                    }
+
                     ?>
 <!DOCTYPE html>
-<html lang="en">
+<title>BAPTISMAL APPLICATION - ICP </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="stylesheet" href="confirmation.css">
 <!-- FONT -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
@@ -113,9 +162,41 @@ if ($stmt) {
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style>
+body {
+    background-image: url("../image/banner_about.png");
+    background-repeat: no-repeat;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-attachment: fixed;
+}
 
-<body>
+.form {
+    background-color: white;
+    width: 70%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: auto;
+    margin-right: auto;
+    border-top: 10px solid green;
+    padding: 20px 20px 0px 20px;
+}
 
+.btn-success {
+    padding: 5px 20px;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 40px;
+    background-color: #28a745;
+    border-color: #28a745;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+</style>
+
+<body style="background-color: #33bb11;">
     <div class="form">
         <div class="funds-success-message-container">
             <div class="funds-checkmark-text-container">
@@ -133,7 +214,7 @@ if ($stmt) {
                     </div>
                 </div>
 
-                <h1 class="funds-success-done-text">Done!</h1>
+                <h1 class="funds-success-done-text">SUCCESS!</h1>
             </div>
 
             <div class="funds-success-message">
@@ -147,17 +228,6 @@ if ($stmt) {
             </div>
         </div>
 
-        <style>
-        .form {
-            width: 70%;
-            margin-top: 1%;
-            margin-left: auto;
-            margin-right: auto;
-            border: 2px solid green;
-            padding: 20px 20px 0px 20px;
-
-        }
-        </style>
         <hr>
         <h4>BATANG MAGPAPABINYAG</h4>
         <!-- Child Information -->
@@ -185,13 +255,20 @@ if ($stmt) {
                 <label for="months">Months:</label>
                 <input type="text" class="form-control" value="<?= $row["months"] ?>" disabled>
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group col-md">
                 <label for="birthplace">Lugar ng Kapanganakan (Birthplace):</label>
                 <input type="text" class="form-control" value="<?= $row["birthplace"] ?>" disabled>
             </div>
             <div class="form-group col-md">
-                <label for="baptismal_date">Petsa ng Binyag (Baptismal Date):</label>
-                <input type="text" class="form-control" value="<?= $row["baptismal_date"] ?>" disabled>
+                <label for="date">Petsa ng Binyag (Baptismal Date):</label>
+                <input type="text" class="form-control" value="<?= $row["date"] ?>" disabled>
+            </div>
+            <div class="form-group col-md">
+                <label for="time">Oras ng Binyag (Baptismal Time):</label>
+                <input type="text" class="form-control" value="<?= date("h:i A", strtotime($row["time"])) ?>"
+                    disabled>
             </div>
         </div>
         <hr>
@@ -226,9 +303,32 @@ if ($stmt) {
         </div>
         <div class="form-row">
             <div class="form-group col-md">
-                <label for="current_address">Current Address:</label>
-                <input type="text" class="form-control" value="<?= $row["current_address"] ?>" disabled>
+                <label for="complete_address">Complete Address:</label>
+                <input type="text" class="form-control" value="<?= $row["complete_address"] ?>" disabled>
             </div>
+            <?php if ($row["permission"] === 'N/A'): ?>
+            <div class="form-group col-md">
+                <label for="permission">Permission Certificate:</label>
+                <input type="text" class="form-control" value="<?= $row["permission"] ?>" disabled>
+            </div>
+            <?php else: ?>
+            <div class="form-group col-md">
+                <label for="permission">Permission Certificate:</label>
+                <?php
+                $url = $row["permission"];
+                $hiddenValue = str_repeat('Permission Certificate', strlen(1));
+                ?>
+                <div class="input-group">
+                    <input type="text" class="form-control" value="<?= $hiddenValue ?>" disabled>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary view-btn" data-url="<?= $row["permission"] ?>">View</button>
+                    </div>
+                </div>
+                <div class="file-path" id="permission" style="display: none;">
+                    <?= $row["permission"] ?>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
         <hr>
         <h4>NINONG AT NINANG</h4>
@@ -249,6 +349,7 @@ if ($stmt) {
                 <label for="godfather_address">Address:</label>
                 <input type="text" class="form-control" value="<?= $row["godfather_address"] ?>" disabled>
             </div>
+
         </div>
 
         <div class="form-row">
@@ -329,7 +430,7 @@ if ($stmt) {
 
         <div class="modal-footer">
             <a href="../send_baptismal_application.php?id=<?= $row['id'] ?>"><button type="button"
-                    class="btn btn-success">OK</button></a>
+                    class="btn btn-success">DONE →</button></a>
         </div>
     </div>
     <div id="imageModal" class="modal_pic">
@@ -376,6 +477,15 @@ if ($stmt) {
 
 </body>
 <style>
+body {
+    height: 100%;
+    background-image: url(../image/banner_about.png) !important;
+    /* background-color: #33bb11; */
+    background-size: cover;
+    background-position: center;
+
+}
+
 /* Center modal vertically and horizontally */
 .modal_pic {
     display: none;

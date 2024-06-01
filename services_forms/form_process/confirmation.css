@@ -1,3 +1,8 @@
+body{
+    height: 100%;
+    background-position: center;
+
+}
 .funds-success-message-container {
     font-family: Roboto, "Segoe UI", "Helvetica Neue", sans-serif !important;
     color: #333;

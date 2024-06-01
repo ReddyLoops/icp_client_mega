@@ -595,7 +595,7 @@ input {
 
             </section>
 
-            <section id="section2">
+            <!-- <section id="section2">
                 <input class="t" type="radio" name="sections" id="option2">
                 <label for="option2" class="trr">Change Email</label>
                 <article>
@@ -653,7 +653,7 @@ input {
                 <article>
                     <p>WORKING IN PROGRESS........ </p>
                 </article>
-            </section>
+            </section> -->
         </div>
 
 

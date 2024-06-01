@@ -42,8 +42,20 @@
 			exit;
 		}
 
-		if (isset($product_add)) {
-			array_push($_SESSION[$cart_name], [
+		// if (isset($product_add)) {
+		// 	array_push($_SESSION[$cart_name], [
+		// 		"product_name" => $product_name,
+		// 		"product_price" => $product_price,
+		// 		"product_image" => $product_image,
+        //         "product_description" => $product_description,
+        //         "product_dimension" => $product_dimension,
+        //         "product_stock" => $product_stock
+		// 	]);
+
+		// 	$_SESSION['alert'] = "Product added";
+		// }
+        if (isset($_POST['buy_now'])) {
+            array_push($_SESSION[$buy_now], [
 				"product_name" => $product_name,
 				"product_price" => $product_price,
 				"product_image" => $product_image,
@@ -52,8 +64,9 @@
                 "product_stock" => $product_stock
 			]);
 
-			$_SESSION['alert'] = "Product added";
-		}
+			$_SESSION['alert'] = "Product added s";
+        
+        }
         $total_quantity = 0;
         foreach ($_SESSION[$cart_name] as $key => $dish) {
             $product_quantity = $dish['product_quantity'];
@@ -83,7 +96,7 @@
 </head>
 
 <style>
-        /* .product_button {
+/* .product_button {
         display: inline-block;
         margin-right: 10px; 
     }
@@ -101,15 +114,16 @@
     .view_buynowForm{
         width: 60%;
     } */
-    .purchase-info{
+.purchase-info {
     display: flex;
     margin: 15px auto 0 auto;
     width: 90%;
     text-align: center;
-  }
-  .purchase-info .product_button .adds_button{
+}
+
+.purchase-info .product_button .adds_button {
     display: inline-block;
-    color:#039103;
+    color: #039103;
     background-color: #03910317;
     border: green;
     margin-right: 5px;
@@ -121,11 +135,12 @@
     cursor: pointer;
     text-align: center;
     padding: 10px 10px;
-  }
+}
 
-  .purchase-info .product_button .buys_button{
-    display: inline-block;
-    color:#ffff;
+.purchase-info .product_button .buys_button {
+    /* display: inline-block; */
+    visibility: hidden;
+    color: #ffff;
     background-color: green;
     /* border: #910503; */
     margin-left: 5px;
@@ -137,41 +152,43 @@
     cursor: pointer;
     text-align: center;
     padding: 10px 10px
-  }
-
-  .back_button {
-display: block;
-  width: 100px;
-  margin-top: 10px;
-  margin-left: 25px;
-  padding:10px 25px 10px 25px;
-  border: 2px solid rgb(246, 246, 246);
-  border-radius: 30px;
-  background-color: green;
-  text-decoration: none;
-  color: rgb(255, 255, 255);
-  text-align: center;
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3),
-  inset 0 -2px 3px rgba(0, 0, 0, 0.3);
-transition: 0.5s;
 }
+
+.back_button {
+    display: block;
+    width: 100px;
+    margin-top: 10px;
+    margin-left: 25px;
+    padding: 10px 25px 10px 25px;
+    border: 2px solid rgb(246, 246, 246);
+    border-radius: 30px;
+    background-color: green;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3),
+        inset 0 -2px 3px rgba(0, 0, 0, 0.3);
+    transition: 0.5s;
+}
+
 .back_button:hover {
-  background-color: rgb(255, 255, 255);
-  color: green;
+    background-color: rgb(255, 255, 255);
+    color: green;
 }
 </style>
+
 <body>
     <?php include "nav.php" ?>
 
     <a class="back_button" href="javascript:void(0);" onclick="goBack()">
-    <i class='bx bx-arrow-back' style='font-size:12px'></i>Back
-</a>
+        <i class='bx bx-arrow-back' style='font-size:12px'></i>Back
+    </a>
 
-<script>
+    <script>
     function goBack() {
         window.history.back();
     }
-</script>
+    </script>
 
     <div class="card-wrapper">
         <div class="card">
@@ -221,7 +238,7 @@ transition: 0.5s;
             </div>
 
             <!-- card right -->
-            
+
             <div class="product-content">
 
                 <h3 class="product-title"><?= $item['product_name'] ?></h3>
@@ -232,19 +249,22 @@ transition: 0.5s;
                     <h1 class="price">₱ <span><?php echo number_format($item['product_price'], 2); ?></span></h1>
                 </div>
                 <div class="product-detail">
-                    <p>St. Rita of Cascia is the patron saint of impossible causes, sterility, abuse victims,
-                        loneliness, marriage difficulties, parenthood, widows, the sick, and bodily ills and wounds.</p>
+                    <p>Elevate your space with our Patron Saint Figurine. Handcrafted with precision, it
+                        embodies divine protection and guidance. Made from durable resin, it features intricate details
+                        and stands 8 inches tall. Perfect for gifting or personal devotion.</p>
                     <ul>
                         <li><i class='fa fa-check-circle'></i> Description:
-                            <span><?= $item['product_description'] ?></span></li>
+                            <span><?= $item['product_description'] ?></span>
+                        </li>
                         <li><i class='fa fa-check-circle'></i> Stock: <span><?php echo $item['product_stock']; ?> pieces
                                 available</span></li>
                         <li><i class='fa fa-check-circle'></i> Dimension:
-                            <span><?php echo $item['product_dimension']; ?></span></li>
+                            <span><?php echo $item['product_dimension']; ?></span>
+                        </li>
                         <li><i class='fa fa-check-circle'></i> Category: <span>Chibi Saints</span></li>
                         <li><i class='fa fa-check-circle'></i> Shipping Area: <span>Nationwide</span></li>
                         <li><i class='fa fa-check-circle'></i> Shipping Fee:
-                            <span>to Luzon- 40pesos <br>to Visayas- 70pesos <br> to Mindanao - 120pesos</span>
+                            <span>to Luzon- 40pesos <br>to Visayas- 80pesos <br> to Mindanao - 120pesos</span>
                         </li>
                     </ul>
                 </div>
@@ -256,23 +276,7 @@ transition: 0.5s;
                 <?php endif; ?>
                 <hr>
                 <div class="purchase-info">
-                    <form class="view_addtocartForm" id="addToCartForm" action="customer/addtocart.php" method="POST">
-                        <input type="hidden" name="product_name" value="<?php echo $item['product_name']; ?>"></input>
-                        <input type="hidden" name="product_image" value="<?php echo $item['product_image']; ?>"></input>
-                        <input type="hidden" name="product_description"
-                            value="<?php echo $item['product_description']; ?>"></input>
-                        <input type="hidden" name="product_price" value="<?php echo $item['product_price']; ?>"></input>
-                        <?php if ( $is_customer_logged_in) { ?>
-                        <div class="product_button">
-                            <input type="submit" name="product_add" class="adds_button" id="add-article"
-                                value="Add to cart" />
-                        </div>
-                        <?php } else { ?>
-                            <div class="product_button">
-                            <a href="customer/login.php" class="adds_button">Add to Cart</a>
-                        </div>
-                        <?php } ?>
-                    </form>
+
 
                     <form class="view_buynowForm" id="addToCartForm" action="buy_now.php" method="POST">
                         <input type="hidden" name="product_name" value="<?php echo $item['product_name']; ?>">
@@ -288,6 +292,25 @@ transition: 0.5s;
                         <?php } else { ?>
                         <div class="product_button">
                             <a href="customer/login.php" class="buys_button">Buy Now</a>
+                        </div>
+                        <?php } ?>
+                    </form>
+
+                    <form class="view_addtocartForm" id="addToCartForm" action="customer/addtocart.php" method="POST">
+                        <input type="hidden" name="product_name" value="<?php echo $item['product_name']; ?>"></input>
+                        <input type="hidden" name="product_image" value="<?php echo $item['product_image']; ?>"></input>
+                        <input type="hidden" name="product_description"
+                            value="<?php echo $item['product_description']; ?>"></input>
+                        <input type="hidden" name="product_price" value="<?php echo $item['product_price']; ?>"></input>
+                        <input type="hidden" name="product_stock" value="<?php echo $item['product_stock']; ?>"></input>
+                        <?php if ( $is_customer_logged_in) { ?>
+                        <div class="product_button">
+                            <input type="submit" name="product_add" class="adds_button" id="add-article"
+                                value="Add to cart" />
+                        </div>
+                        <?php } else { ?>
+                        <div class="product_button">
+                            <a href="customer/login.php" class="adds_button">Add to Cart</a>
                         </div>
                         <?php } ?>
                     </form>
@@ -321,5 +344,26 @@ transition: 0.5s;
     window.addEventListener('resize', slideImage);
     </script>
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Select the "Add to cart" button
+    const addToCartButtons = document.querySelectorAll(".adds_button");
+
+    // Add event listener to handle button click for each "Add to cart" button
+    addToCartButtons.forEach(function(button) {
+        button.addEventListener("click", function(event) {
+            // Count the total number of items in the cart
+            var totalQuantity = <?php echo $total_quantity; ?>;
+
+            // If the total quantity is 5, display an alert and prevent further addition
+            if (totalQuantity === 5) {
+                event.preventDefault(); // Prevent the default click behavior
+                alert('You can only purchase 5 items per transaction!');
+                window.location.href = 'cart.php'; // Redirect to products.php
+            }
+        });
+    });
+});
+</script>
 
 </html>

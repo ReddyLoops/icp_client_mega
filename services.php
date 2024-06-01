@@ -89,7 +89,7 @@
             <li>Funeral</li> 
             </ul>       
           </div>
-          <a class="apply" href="#">Request Now</a>
+          <a class="apply" href="services_forms/request.php">Request Now</a>
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@
             <li>Blessing</li> 
             </ul>
           </div>
-          <a class="apply" href="services_forms/index.php">Apply Now</a>
+          <a class="apply" href="services_forms/apply.php">Apply Now</a>
         </div>
       </div>
     </div>

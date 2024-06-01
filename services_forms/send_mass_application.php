@@ -9,7 +9,7 @@ require 'phpmailer/src/SMTP.php';
 $hostname="localhost";
 $username="root";
 $password="";
-$dbname="thesis_latest";
+$dbname="icp_database";
 
 $conn=mysqli_connect($hostname, $username,$password,$dbname);
 
@@ -63,8 +63,7 @@ $mail->AltBody = 'Application Submitted Successfully
             if ($mail->send()) {
                 echo "
                 <script>
-                alert('Sent Successfully');
-                document.location.href = 'apply.php';
+                document.location.href = '../apply.php';
                 </script>
                 ";
             } else {

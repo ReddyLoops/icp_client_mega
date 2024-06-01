@@ -9,7 +9,7 @@ require 'phpmailer/src/SMTP.php';
 $hostname="localhost";
 $username="root";
 $password="";
-$dbname="thesis_latest";
+$dbname="icp_database";
 
 $conn=mysqli_connect($hostname, $username,$password,$dbname);
 
@@ -47,7 +47,7 @@ $mail->Body    = '<div style="font-family: Arial, sans-serif; max-width: 600px; 
 </div>
             <h2 style="color: #333333; font-size: 24px; font-weight: bold; text-align: center;">Funeral Application Submitted Successfully</h2>
             <p style="font-size: 16px;"><strong>Reference Number:</strong> ' . $row["reference_id"] . '</p>
-            <p style="font-size: 16px;"><strong>Deceased Full Name:</strong> ' . $row["deceased_fullname	"] . '</p>
+            <p style="font-size: 16px;"><strong>Deceased Full Name:</strong> ' . $row["deceased_fullname"] . '</p>
             <p style="font-size: 16px;"><strong>Date of Death:</strong> ' . $row["date_of_death"] . '</p>
             <p style="font-size: 16px;"><strong>Civil Status:</strong> ' . $row["civil_status"] . '</p>
             <p style="font-size: 16px;"><strong>Spous Name:</strong> ' . $row["spouse_name"] . '</p>
@@ -71,7 +71,7 @@ $mail->Body    = '<div style="font-family: Arial, sans-serif; max-width: 600px; 
             <p style="font-size: 16px;">(The application has been submitted successfully, kindly wait for the approvals through email!)</p>';
 $mail->AltBody = 'Application Submitted Successfully
             Reference Number: ' . $row["reference_id"] . '
-            Deceased Full Name: ' . $row["deceased_fullname	"] . '
+            Deceased Full Name: ' . $row["deceased_fullname"] . '
             Date of Death: ' . $row["date_of_death"] . '
             Civil Status: ' . $row["civil_status"] . '
             Spous Name: ' . $row["spouse_name"] . '
@@ -99,8 +99,7 @@ $mail->AltBody = 'Application Submitted Successfully
             if ($mail->send()) {
                 echo "
                 <script>
-                alert('Sent Successfully');
-                document.location.href = 'apply.php';
+                document.location.href = '../apply.php';
                 </script>
                 ";
             } else {

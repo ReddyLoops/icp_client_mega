@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- <a href="#"><i class="fa fa-facebook"></i></a> -->
     <!-- ... (your head section remains the same) ... -->
 </head>
+
 <body>
 
-<?php
+    <?php
 require_once "connect.php";
 $is_customer_logged_in = isset($_SESSION['auth_login']);
 
@@ -87,4 +89,5 @@ HTML;
 ?>
 
 </body>
+
 </html>

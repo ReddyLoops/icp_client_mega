@@ -624,6 +624,10 @@ h2 {
                                     <input id="street" type="text" name="street" placeholder="Enter Street" required
                                         autocomplete="street-address">
                                 </div>
+                                <div class="input-wrapper">
+                                    <label for="shipping_fee">Shipping Fee</label>
+                                    <input id="shipping_fee" type="number" name="shipping_fee"  readonly>
+                                </div>
                                 <input type="hidden" value="true" name="cart_checkout" />
                                 <div class="address_button">
                                     <button class="delete_address_button">CANCEL</button>
@@ -804,7 +808,43 @@ function deleteAddress(addressId) {
         });
     }
 }
+</script>
 
+<script>
+    // Get the region dropdown
+    const regionDropdown = document.getElementById('region');
 
+    // Add event listener to the region dropdown
+    regionDropdown.addEventListener('change', function() {
+        // Get the selected region value
+        const selectedRegion = regionDropdown.value;
 
+        // Define the shipping fee data based on your JSON structure
+        const regionData = {
+            "01": 40, // Region I (Ilocos Region)
+            "02": 40,
+            "03": 40,
+            "04": 40,
+            "05": 40,
+            "06": 40,
+            "07": 80,
+            "08": 80,
+            "09": 80,
+            "10": 120,
+            "11": 120,
+            "12": 120,
+            "13": 120,
+            "14": 40,
+            "15": 40,
+            "16": 120,
+            "17": 120,
+        };
+
+        // Retrieve the shipping fee based on the selected region code
+        const shippingFee = regionData[selectedRegion] || 0;
+
+        // Update the shipping fee input field
+        document.getElementById('shipping_fee').value = shippingFee;
+    });
+</script>
 </html>

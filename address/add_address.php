@@ -17,6 +17,7 @@
         $barangay_name = $_POST['barangay_text']; // Change to barangay name
         $street = $_POST['street'];
         $zip_code = $_POST['zip_code'];
+        $shipping_fee = $_POST['shipping_fee'];
 
         // Database insertion
         $auth = $_SESSION['auth_login'];
@@ -24,10 +25,10 @@
         $group_order = uniqid(); // Generate unique group order ID
 
         // Prepare and execute SQL query
-        $sql = "INSERT INTO `address`(`group_id`, `customer_id`, `first_name`, `last_name`, `mobile_number`, `region`, `province`, `city`, `barangay`, `street`, `zip_code`, `date_added`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        $sql = "INSERT INTO `address`(`group_id`, `customer_id`, `first_name`, `last_name`, `mobile_number`, `region`, `province`, `city`, `barangay`, `street`, `zip_code`, `shipping_fee`, `date_added`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
         $stmt = $pdo->prepare($sql);
         try {
-            $stmt->execute([$group_order, $auth_id, $first_name, $last_name, $mobile_number, $region_name, $province_name, $city_name, $barangay_name, $street, $zip_code]);
+            $stmt->execute([$group_order, $auth_id, $first_name, $last_name, $mobile_number, $region_name, $province_name, $city_name, $barangay_name, $street, $zip_code, $shipping_fee]);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             exit; // Stop further execution

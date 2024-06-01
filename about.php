@@ -1,3 +1,42 @@
+<?php 
+    require_once "connect.php";
+    $is_customer_logged_in = isset($_SESSION['auth_login']);
+
+    $blog_query = "SELECT * FROM blog WHERE status = 'active' ORDER BY date"; 
+    $blog_result = mysqli_query($conn, $blog_query);
+
+    if (!$blog_result) {
+        echo "Error fetching blog data: " . mysqli_error($conn);
+        exit; // Exit if there's an error
+    }
+
+    // Initialize an empty array to store blog data
+    $blog = [];
+
+    // Fetch each row and format the data
+    while ($item = mysqli_fetch_assoc($blog_result)) {
+        $formatted_date = date("F j, Y", strtotime($item['date']));
+
+        // Limit content to 30 words
+        $content_words = explode(" ", $item['content']);
+        $content_short = implode(" ", array_slice($content_words, 0, 20));
+        // Add ellipsis if content exceeds 30 words
+        if (count($content_words) > 20) {
+            $content_short .= '...';
+        }
+        $short_content = $content_short;
+
+        // Add formatted date and short content to each item
+        $item['formatted_date'] = $formatted_date;
+        $item['short_content'] = $short_content;
+
+        // Add the formatted item to the $blog array
+        $blog[] = $item;
+    }
+?>
+
+
+
 <!DOCTYPE html>
 <html>
 
@@ -10,8 +49,10 @@
     <link rel='stylesheet' href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css'>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <?php include 'nav.php';?>
+
 <!-- image gallery style -->
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Give+You+Glory&display=swap");
@@ -71,139 +112,11 @@
     border: 1px solid transparent;
     z-index: 99;
 }
-
-/* CONTACTS */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
-
-
-.contacts_about {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "Poppins", sans-serif;
-}
-
-.contact-container {
-    margin-top: 45px;
-    max-width: 1500px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-:root {
-    /* //....... Color ........// */
-    --primary-color: #ff3c78;
-    --light-black: rgba(0, 0, 0, 0.89);
-    --black: #000;
-    --white: #fff;
-    --grey: #aaa;
-}
-
-
-.form {
-    display: flex;
-    justify-content: space-between;
-    margin: 80px 0;
-}
-
-.form .form-txt {
-    flex-basis: 48%;
-}
-
-.form .form-txt h1 {
-    font-weight: 600;
-    color: var(--black);
-    font-size: 40px;
-    letter-spacing: 1.5px;
-    margin: 0 0 10px 0;
-    color: var(--light-black);
-}
-
-.form .form-txt span {
-    color: var(--light-black);
-    font-size: 14px;
-}
-
-.form .form-txt h3 {
-    font-size: 22px;
-    font-weight: 600;
-    margin: 15px 0;
-    color: var(--light-black);
-}
-
-.form .form-txt p {
-    color: var(--light-black);
-    font-size: 14px;
-    margin: 0;
-}
-
-.form .form-details {
-    flex-basis: 48%;
-}
-
-
-@media (max-width: 500px) {
-    .form {
-        display: flex;
-        flex-direction: column;
-    }
-
-}
-
-@media(min-width: 501px) and (max-width: 768px) {
-    .form {
-        display: flex;
-        flex-direction: column;
-    }
-
-}
-
-/* GOOGLE MAPS */
-.map-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 9px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-}
-
-.map-wrapper h1 {
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 30px;
-}
-
-.map-container {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%;
-
-}
-
-iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 10px;
-}
 </style>
 
 
 <!-- TIMELINE -->
 <style>
-/* -------------------------------- 
-
-Primary style
-
--------------------------------- */
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
 *,
@@ -216,12 +129,6 @@ html {
     font-size: 62.5%;
 }
 
-/* body {
-  font-size: 1.6rem;
-  font-family: "Source Sans Pro", sans-serif;
-  color: #383838;
-  background-color: #f8f8f8;
-} */
 
 a {
     color: #7b9d6f;
@@ -242,13 +149,11 @@ Main Components
 }
 
 .cd-horizontal-timeline::before {
-    /* never visible - this is used in jQuery to check the current MQ */
     content: 'mobile';
     display: none;
 }
 
 .cd-horizontal-timeline.loaded {
-    /* show the timeline after events position has been set (using JavaScript) */
     opacity: 1;
 }
 
@@ -269,7 +174,6 @@ Main Components
 
 .cd-horizontal-timeline .events-wrapper::after,
 .cd-horizontal-timeline .events-wrapper::before {
-    /* these are used to create a shadow effect at the sides of the timeline */
     content: '';
     position: absolute;
     z-index: 2;
@@ -278,16 +182,6 @@ Main Components
     width: 20px;
 }
 
-/* .cd-horizontal-timeline .events-wrapper::before {
-  left: 0;
-  background-image: -webkit-linear-gradient( left , #f8f8f8, rgba(248, 248, 248, 0));
-  background-image: linear-gradient(to right, #f8f8f8, rgba(248, 248, 248, 0));
-}
-.cd-horizontal-timeline .events-wrapper::after {
-  right: 0;
-  background-image: -webkit-linear-gradient( right , #f8f8f8, rgba(248, 248, 248, 0));
-  background-image: linear-gradient(to left, #f8f8f8, rgba(248, 248, 248, 0));
-} */
 .cd-horizontal-timeline .events {
     /* this is the grey line/timeline */
     position: absolute;
@@ -565,19 +459,6 @@ Main Components
     line-height: 1.6;
 }
 
-@media only screen and (min-width: 768px) {
-    .cd-horizontal-timeline .events-content h2 {
-        font-size: 7rem;
-    }
-
-    .cd-horizontal-timeline .events-content em {
-        font-size: 2rem;
-    }
-
-    .cd-horizontal-timeline .events-content p {
-        font-size: 1.8rem;
-    }
-}
 
 @-webkit-keyframes cd-enter-right {
     0% {
@@ -667,64 +548,252 @@ Main Components
     }
 }
 
-
-/* core_values */
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
-
-.core_values {
-  font-size: 20px;
-  font-family: 'Lato', 'Arial', sans-serif;
-  font-weight: 400;
-  height: 40%;
-  display:flex;
+/* ORGANIZATION */
+.caption h5 {
+    color: rgb(0, 0, 0);
 }
 
-.wrapper_values {
-  width: 100%;
-  /* height: 100vh; */
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  /* background-color: rgba(248,248,248,1); */
+@media only screen and (max-width: 1024px){
+    .portfolio .content .projects .project {
+        width: auto;
+    }
+    .wrapper {
+        display: grid;
+        padding: 0;
+        padding-top: 100px;
+    }
+    .images {
+        padding-left: 50px;
+    }
+    .images img {
+        width: 180px;
+        height: 180px;
+    }
+    .image_gallery {
+        height: 90%;
+    }
+    .about-myself {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        /* padding: 150px 0px; */
+        height: 80%;
+        padding-bottom: 0px;
+        padding-top: 5px;
+    }
+    .about-myself .content p {
+        font-size: 18px;
+    }
+    .portfolio {
+        padding: 0;
+    }
+    .form {
+        margin: 0;  
+        margin-top: 20px;
+    }
+    .form-details {
+        margin-right: 20px !important;
+    }
+    .form-txt {
+        margin-left: 20px !important;
+    }
+    
+    .text {
+        padding-right: 0;
+    }
 }
+@media only screen and (min-width: 768px) {
+    .cd-horizontal-timeline .events-content h2 {
+        font-size: 7rem;
+    }
 
-.card_values {
-  width: 500px;
-  height: 200px;
-  background-color: #fff;
-  box-shadow: 0 2px 6px 0 hsla(0,0%,0%,0.2);
-  border-radius: 10px;
-  padding: 38px 0 0 110px ;
-  position: relative;
-  overflow: hidden;
+    .cd-horizontal-timeline .events-content em {
+        font-size: 2rem;
+    }
+
+    .cd-horizontal-timeline .events-content p {
+        font-size: 1.8rem;
+    }
 }
+@media only screen and (max-width: 768px) {
+    .cd-horizontal-timeline .events-content h2 {
+        font-size: 7rem;
+    }
 
-.card_values h5 {
-  margin-bottom: 15px;
+    .cd-horizontal-timeline .events-content em {
+        font-size: 2rem;
+    }
+
+    .cd-horizontal-timeline .events-content p {
+        font-size: 1.8rem;
+    }
+    .cd-horizontal-timeline.loaded {
+        height: 70% !important;
+    }
+    .form .form-txt {
+        text-align: center;
+    }
+    .form .form-details {
+        margin-left: 20px;
+    }
+    .images img {
+        width: 210px;
+    }
+    .images {
+        padding-left: 65px;
+    }
+    .section-showcase .container {
+        display: contents !important;
+        height: 700px;
+        width: 100%;
+    }
+    .wrapper {
+        display: grid;
+        padding: 0;
+        padding-top: 50px;
+    }
+    .about-myself {
+        padding-top: 50px;
+    }
+    .portfolio {
+        padding-top: 50px;
+    }
+    .about-myself .content p {
+        width: 95%;
+    }
+    .section-showcase h1 {  
+        text-align: center;
+    }
+    .section-showcase p {
+        margin: 1rem !important;
+    }
+    .section-showcase .container .container_img {
+        display: none;
+    }
+    .card {
+        min-height: 450px !important;
+    }
 }
-
-.card_values p {
-  font-size: 80%;
-  color: rgba(0,0,0,0.5);
-  max-width: 350px;
+@media only screen and (max-width: 320px) {
+    .form .form-txt h1 {
+        font-size: 20px;
+    }
+    .form .form-txt strong {
+        font-size: 15px;
+    }
+    .form .form-txt p {
+        font-size: 7px;
+    }
+    .form .form-txt h3 {
+        font-size: 20px;
+    }
+    .form .form-txt li {
+        font-size: 12px;
+    }
+    .cd-horizontal-timeline.loaded h1{
+        text-align: center;
+    }
+    .cd-horizontal-timeline .events-content {
+        margin: 0;
+    }
+    .cd-horizontal-timeline .events-content h2 {
+        font-size: 3rem;
+    }
+    .cd-horizontal-timeline .events-content p {
+        font-size: 1rem;
+        text-align: justify;
+    }
+    .cd-horizontal-timeline .events-content em {
+        font-size: 1rem;
+    }
+    .cd-horizontal-timeline .timeline {
+        width: 100%;
+    }
+    .about-myself {
+        display: grid;
+    }
+    .wrapper {
+        margin-top: 10rem;
+    }
+    .text {
+        font-size: 3rem;
+        line-height: 0;
+    }
+    .images {
+        padding-left: 5px;
+        margin-top: 10px;
+    }
+    .images img {
+        width: 98px;
+        height: 98px;
+    }
+    .image_gallery {
+        height: 80%;
+        margin-top: 15rem;
+    }
+    .image_gallery .wrapper .text {
+        margin: 0;
+    }
+    .about-myself .content h2 {
+        font-size: 2.5rem;
+    }
+    .portfolio .content h1 {
+        font-size: 2.5rem;
+        padding-top: 20px;
+        margin: 0 0 20px 0;
+    }
+    .about-myself .content p {
+        font-size: 1rem;
+        width: 90% !important;
+    }
+    .about-myself {
+        padding: 0px 0px;
+        height: auto;
+    } 
+    .portfolio .content p {
+        font-size: 1rem;
+    }
+    .portfolio .content .projects .project .project-title {
+        padding: 0px 0;
+    }
+    .portfolio .content .projects .project .project-title h2 {
+        font-size: 2rem;
+    }
+    .about-myself .content .aboutTitleVisible {
+        margin-top: 20px;
+    }
+    .map-wrapper {
+        padding: 20px;
+    }
+    .map-wrapper h1 {
+        font-size: 2rem;
+    }
+    .card {
+        width: 44%;
+        min-height: 300px !important;
+    }
+    .thumbnail {
+        margin-bottom: 0px;
+    }
+    .thumbnail .caption {
+        padding: 0px;
+    }
+    .h3, h3 {
+        font-size: 14px;
+    }
+    .immaculate {
+        font-size: 20px !important;
+    }   
+    .horizontal-scroll {
+        height: 100px !important;
+    }
+    .jumbotron {
+        padding-top: 0px;
+        padding-bottom: 10px;
+        margin-bottom: 0px;
+        color: inherit;
+    }
 }
-
-.icon_values {
-  width: 25%;
-  height: auto;
-  position: absolute;
-  left: -35px;
-}
-
-.red { color: #E53935; }
-.blue { color: #1E88E5; }
-.green { color: #00C853; }
-
 </style>
 
 <body>
@@ -736,45 +805,24 @@ Main Components
         </div>
     </section>
 
-    <!-- <section class="core_values">
-    <div class="wrapper_values">
-  <div class="card_values">
-    <img class="icon_values" src="https://image.ibb.co/f5tkSS/cape.png">
-    <h5 class="red">Vision</h5>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-  </div>
-  <div class="card_values">
-    <img class="icon_values" src="https://image.ibb.co/cAdPMn/iceberg.png">
-    <h5 class="blue">Mission</h5>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-  </div>
-  <div class="card_values">
-    <img class="icon_values" src="https://image.ibb.co/cd5M1n/trees.png">
-    <h5 class="green">Values</h5>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-  </div>
-</div>
-    </section> -->
-
-    
-
+    <!-- TIMELINE -->
     <section class="cd-horizontal-timeline section_timeline" style="height: 70%;">
-        <h1 style="position: relative; margin: auto; width: 80%"><strong>ICP Pandi</strong> Timeline</h1>
+        <h1 style="position: relative; margin: auto; width: 80%"><strong>ICP Pandi Timeline</strong></h1>
         <div class="timeline">
             <div class="events-wrapper">
                 <div class="events">
                     <ol>
                         <li><a href="#0" data-date="16/01/2014" class="selected">1792</a></li>
                         <li><a href="#0" data-date="28/02/2014">1880</a></li>
-                        <li><a href="#0" data-date="20/04/2014">1899</a></li>
+                        <li><a href="#0" data-date="20/04/2014">1896</a></li>
                         <li><a href="#0" data-date="20/05/2014">1930</a></li>
-                        <li><a href="#0" data-date="09/07/2014">1940</a></li>
-                        <li><a href="#0" data-date="30/08/2014">30 Aug</a></li>
-                        <li><a href="#0" data-date="15/09/2014">15 Sep</a></li>
-                        <li><a href="#0" data-date="01/11/2014">01 Nov</a></li>
-                        <li><a href="#0" data-date="10/12/2014">10 Dec</a></li>
-                        <li><a href="#0" data-date="19/01/2015">29 Jan</a></li>
-                        <li><a href="#0" data-date="03/03/2015">3 Mar</a></li>
+                        <li><a href="#0" data-date="09/07/2014">1946</a></li>
+                        <li><a href="#0" data-date="30/08/2014">1987</a></li>
+                        <li><a href="#0" data-date="15/09/2014">2023</a></li>
+                        <li><a href="#0" data-date="01/11/2014">2024</a></li>
+                        <!-- <li><a href="#0" data-date="10/12/2014">1987 to 2024</a></li>
+                        <li><a href="#0" data-date="19/01/2015">1987 to 2024</a></li>
+                        <li><a href="#0" data-date="03/03/2015">1987 to 2024</a></li> -->
                     </ol>
 
                     <span class="filling-line" aria-hidden="true"></span>
@@ -782,7 +830,7 @@ Main Components
             </div> <!-- .events-wrapper -->
 
             <ul class="cd-timeline-navigation">
-                <ul><a href="#0" class="prev inactive">Prev</a></ul>
+                <ul><a href="#0" class="prev inactive"><i class="fas fa-chevron-left"></i></a></ul>
                 <ul><a href="#0" class="next">Next</a></ul>
             </ul> <!-- .cd-timeline-navigation -->
         </div> <!-- .timeline -->
@@ -793,40 +841,36 @@ Main Components
                     <h2>PANDI</h2>
                     <em>January 16th, 1792</em>
                     <p>
-                        PANDI WAS FOUNDED IN 1792.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit
-                        recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus
-                        sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi!
-                        Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro
-                        doloribus.
+                    Pandi was founded in 1792. The EARTHQUAKE of 1880 damage the church and the convent constructed early in 
+                    the nineteenth century. They where finally ddestroyed by fire, with the town itself, incident to an encounter 
+                    between american and filipino forces in April, 1899.
                     </p>
                 </li>
 
                 <li data-date="28/02/2014">
                     <h2>THE EARTHQUAKE</h2>
-                    <em>February 28th, 1880</em>
+                    <em>July 14th, 1880</em>
                     <p>
-                        THE EARTHQUAKE OF 1880 DAMAGED THE CHURCH AND THE CONVENT CONSTRUCTED EARLY IN THE NINETEENTH
-                        CENTURY.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit
-                        recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus
-                        sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi!
-                        Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro
-                        doloribus.
+                    The 1880 Southern Luzon earthquakes, were one of the most destructive tremors on record in the history of the country. 
+                    The shocks continued, with greater or less interruption, from July 14-25, 1880; highlighted by three violent quakes
+                     measuring Mw 7.0, Mw 7.6, and Mw 7.2 respectively. The sequence destroyed churches and other buildings, producing 
+                     loss of life.Coinciding with the tectonic activity was an increase in volcanic activity in the Taal Volcano of 
+                     southwestern Luzon. Manila, together with the provinces of Cavite, Bulacan, Laguna, Pampanga, and Nueva Ecija 
+                     were the chief victims from the convulsions, with Manila and Laguna receiving the full brunt of the quakes. In many places, 
+                     buildings were converted into shapeless heaps of ruins, and the materials of their prosperity buried beneath the rubbish.
                     </p>
                 </li>
 
                 <li data-date="20/04/2014">
                     <h2>AMERICAN AND FILIPINO</h2>
-                    <em>March 20th, 1899</em>
+                    <em>March 20th, 1896</em>
                     <p>
-                        THEY WERE FINALLY DESTROYED BY FIRE, WITH THE TOWN ITSELF, INCIDENT TO AN ENCOUNTER BETWEEN
-                        AMERICAN AND FILIPINO FORCES IN APRIL
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit
-                        recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus
-                        sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi!
-                        Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro
-                        doloribus.
+                    During the Philippine Revolution, Pandi played a vital and historical role in the fight for Philippine independence, 
+                    Pandi is historically known for the Real de Kakarong de Sili Shrine - Inang Filipina Shrine, the site where the bloodiest 
+                    revolution in Bulacan took place, where more than 3,000 Katipunero revolutionaries died. Likewise, it is on this site where 
+                    the 'Republic of Real de Kakarong de Sili' of 1896, one of the first Philippine revolutionary republics was established. 
+                    It was in Kakarong de Sili, which about 6,000 Katipuneros from various towns of Bulacan headed by Brigadier General 
+                    Eusebio Roque, a mysticist (albolaryo) better known as "Maestrong Sebio or Dimabungo"
                     </p>
                 </li>
 
@@ -841,59 +885,59 @@ Main Components
                         Ramirez who claimed that the Virgin Mary appeared in his dream and gave instructions as to where
                         the image can be found. The image was returned to the town on a February and the townsfolk
                         accordingly adjusted their feast day to the first Thursday of February except when its falls on
-                        February 2 (the feast of the Our Lady of the Candles).[
+                        February 2 (the feast of the Our Lady of the Candles).
                     </p>
                 </li>
 
                 <li data-date="09/07/2014">
-                    <h2>Event title here</h2>
-                    <em>March 3, 2018</em>
+                    <h2>The Republic of Kakarong de Sili</h2>
+                    <em>March 3, 1946</em>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit
-                        recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus
-                        sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi!
-                        Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro
-                        doloribus.
+                    The Kakarong Lodge No. 168 of the 'Legionarios del Trabajo' in memory of the 1,200 Katipuneros who perished 
+                    in the battle erected a monument of the Inang Filipina Shrine - Mother Philippines Shrine in 1924 in the barrio 
+                    of Kakarong. The actual site of the 'Battle of Kakarong de Sili' belongs to the administrative and geographical 
+                    jurisdiction of Town of Bigaa and it was given to Pandi in 1946. The site is now a part of the barangay of 'Real de Kakarong'.
+                     No less than one of the greatest generals in the Philippines' history, General Emilio Aguinaldo who became first 
+                     Philippine president visited this sacred ground in the late fifties.
                     </p>
                 </li>
 
                 <li data-date="30/08/2014">
-                    <h2>Event title here</h2>
-                    <em>August 30th, 2014</em>
+                    <h2>Geography</h2>
+                    <em>1987</em>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit
-                        recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus
-                        sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi!
-                        Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro
-                        doloribus.
+                    Pandi is located at the center of four adjoining towns of Bulacan Province: Santa Maria; Bustos; Angat; 
+                    and Balagtas. The land area are mostly rice fields devoted for planting crops and agriculture. Some barrios
+                     of the town are covered by irrigation system coming from Angat Dam on the Angat River. There are many 
+                     little rivers that branch out from this river that become estuaries. Some little rivers provide livelihood 
+                     by fanning gold. The biggest river is Bunsuran River that empties itself to the Philippine Sea. Along the side 
+                     of the rivers are banana plantations thriving naturally and many taro plants.
                     </p>
                 </li>
 
                 <li data-date="15/09/2014">
-                    <h2>Event title here</h2>
-                    <em>September 15th, 2014</em>
+                    <h2>Likas na Yaman</h2>
+                    <em>September 15th, 2023</em>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit
-                        recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus
-                        sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi!
-                        Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro
-                        doloribus.
+                    Pandi is rich in many natural brooks coming from the mainland itself. In some remote areas the lands are 
+                    still covered by bamboo trees that naturally thrive and multiplies. Some lands privately owned have mango 
+                    plantations. In some areas that are privately owned are rock deposits being used for housing materials. 
+                    The eastern area of Poblacion is gifted by the natural panoramic beauty of the scenery of Sierra Madre Mountains in Luzon.
                     </p>
                 </li>
 
                 <li data-date="01/11/2014">
-                    <h2>Event title here</h2>
-                    <em>November 1st, 2014</em>
+                    <h2>Climate</h2>
+                    <em>2024</em>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit
-                        recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus
-                        sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi!
-                        Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro
-                        doloribus.
+                    Owing to this the morning climate is always cloudy and cool in some areas of the town proper of Pandi, Bulacan.
+                     Some of the natural variations in topography of Pandi land areas have been evened out due to the urbanization 
+                     of the town. The town's central area has been altered substantially by commercial establishments. Pandi was part 
+                     of 2nd congressional district from 1987 to 2022. It was moved to 5th district along with Balagtas, Bocaue, and Guiguinto.
                     </p>
                 </li>
 
-                <li data-date="10/12/2014">
+                <!-- <li data-date="10/12/2014">
                     <h2>Event title here</h2>
                     <em>December 10th, 2014</em>
                     <p>
@@ -926,12 +970,13 @@ Main Components
                         sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi!
                         Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro
                         doloribus.
-                    </p>
+                    </p> -->
                 </li>
             </ol>
         </div> <!-- .events-content -->
     </section>
 
+    <!-- IMAGE GALLERY -->
     <section class="image_gallery">
         <div class="wrapper">
             <div class="images">
@@ -951,6 +996,8 @@ Main Components
         </div>
     </section>
 
+
+    <!-- HISTORY -->
     <section class="about-myself">
         <div class="content">
             <h2>HISTORY</h2>
@@ -979,146 +1026,148 @@ Main Components
     </section>
 
 
+    <!-- BLOG -->
     <section class="portfolio">
         <div class="content">
-
             <h1>Events and Activities</h1>
-
-            <div class="projects">
-                <div class="column">
-                    <div class="project">
-                        <div class="project-image">
-                            <!-- Credit image : Unsplash - Harman Abiwardani -->
-                            <img src="image/event1.png" alt="" />
-                        </div>
-                        <div class="project-title">
-                            <h2>Event #1</h2>
-                        </div>
-                        <div class="project-description">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi asperiores odio
-                                libero,
-                                molestiae at suscipit totam sequi, delectus temporibus. Provident itaque illum animi
-                                cupiditate
-                                quaerat! Id inventore, excepturi sequi totam. Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Maiores iure ex repudiandae, enim maxime.</p>
-                        </div>
+            <div class="flex-container">
+                <?php foreach ($blog as $item) { ?>
+                <div class="card">
+                    <div class="card-header">
+                        <img src="<?php echo $item['image']; ?>" alt="">
                     </div>
-
-                    <div class="project">
-                        <div class="project-image">
-                            <!-- Credit image : Unsplash - Patrick Hendry -->
-                            <img src="image/event2.jpg" alt="" />
-                        </div>
-                        <div class="project-title">
-                            <h2>Event #2</h2>
-                        </div>
-                        <div class="project-description">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi magni consequatur
-                                dolores
-                                distinctio quod accusamus voluptatum obcaecati animi expedita rem odio explicabo
-                                veritatis
-                                voluptas ducimus voluptate earum laborum, qui maiores doloremque deserunt sapiente
-                                corporis
-                                et
-                                culpa, nihil fuga. Sit nemo maxime itaque maiores iure, similique ratione veritatis
-                                quidem
-                                nulla
-                                explicabo.</p>
-                        </div>
+                    <div class="card-content">
+                        <span><?php echo $item['formatted_date']; ?></span>
+                        <a class="title" href="#"><?php echo $item['title']; ?></a>
+                        <p><?php echo $item['short_content']; ?></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="blog.php?blog_id=<?php echo $item['blog_id']; ?>" class="btn btn-primary btn-sm h-25"
+                            target="_blank">Read More</a>
                     </div>
                 </div>
-
-                <div class="column">
-                    <div class="project">
-                        <div class="project-image">
-                            <!-- Credit image : Unsplash - Ken Cheung -->
-                            <img src="image/event3.jpg" alt="" />
-                        </div>
-                        <div class="project-title">
-                            <h2>Event #3</h2>
-                        </div>
-                        <div class="project-description">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi asperiores odio
-                                libero,
-                                molestiae at suscipit totam sequi, delectus temporibus. Provident itaque illum animi
-                                cupiditate
-                                quaerat! Id inventore, excepturi sequi totam. Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Maiores iure ex repudiandae, enim maxime.</p>
-                        </div>
-                    </div>
-                    <div class="project">
-                        <div class="project-image">
-                            <!-- Credit image : Unsplash - Ken Cheung -->
-                            <img src="image/event4.jpg" alt="" />
-                        </div>
-                        <div class="project-title">
-                            <h2>Event #4</h2>
-                        </div>
-                        <div class="project-description">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi asperiores odio
-                                libero,
-                                molestiae at suscipit totam sequi, delectus temporibus. Provident itaque illum animi
-                                cupiditate
-                                quaerat! Id inventore, excepturi sequi totam. Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Maiores iure ex repudiandae, enim maxime.</p>
-                        </div>
-                    </div>
-                </div>
-
+                <?php } ?>
             </div>
         </div>
     </section>
 
-    <section class="contacts_about">
-        <div class="contact-container">
-            <form>
-                <div class="form">
-                    <div class="form-txt">
-                        <h1>Contact Us</h1>
-                        <strong>J.P Rizal St, Poblacion, Pandi, 3014 Bulacan</strong><br>
-                        <a href="your_link_url_here"></ul>
-                            <p>Email - <u
-                                    style="text-underline-position: under; color: green;">immaculateconception1874@gmail.com</u>
-                            </p>
-                        </a>
-                        <a href="your_link_url_here"></ul>
-                            <p>Facebook - <u
-                                    style="text-underline-position: under; color: green;">fb.com/immaculateconceptionparishpandi1874</u>
-                            </p>
-                        </a>
-                        <a href="your_link_url_here"></ul>
-                            <p>Contact Number - <u
-                                    style="text-underline-position: under; color: green;">0916-5798-189</u></p>
-                        </a>
 
-
-
-                        <h3>Parish Office Schedule:</h3>
-                        <p>MONDAYS - Parish office is closed on Mondays.</p>
-                        <p>TUESDAYS TO SUNDAYS - 8:00 AM to 12:00 PM; 2:00 PM to 5:00 PM</p>
-
-                        <h3>Schedule of Masses:</h3>
-                        <li>Monday - 6:00 AM</li>
-                        <li>Tuesday - 6:00 AM</li>
-                        <li>Wednesday - 6:00 AM</li>
-                        <li>Thursday - 6:00 AM</li>
-                        <li>Friday - 6:00 AM</li>
-                        <li>Saturday - 6:00 AM</li>
-                        <li>Sunday - 6:00 AM, 8:00 AM, 5:00 PM</li>
-                    </div>
-                    <div class="form-details">
-                        <div class="map-wrapper">
-                            <h1>Explore Our Location</h1>
-                            <div class="map-container">
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3856.323117284999!2d120.95520931135269!3d14.863199870532387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ab89e41cfb07%3A0x2f2337a16ed664d4!2sSimbahan%20ng%20Parokya%20ng%20Immaculada%20Concepcion%20-%20Pandi%2C%20Bulacan!5e0!3m2!1sen!2sph!4v1712323258198!5m2!1sen!2sph"
-                                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            </div>
-                        </div>
+    <!-- ORGANIZATION -->
+    <section>
+        <div class="jumbotron text-center">
+            <div class="row align-items-center">
+                <div class="col-xs-12 col-sm-12 d-flex justify-content-center">
+                    <img class="" style="width: 120px; height: auto; margin-right: 10px;" src="image/logo_only.png">
+                    <div style="display: inline-block; vertical-align: middle;">
+                        <span style="display: inline-block; margin-bottom: 0; font-size: 20px; ">Diocese of
+                            Malolos</span><br>
+                        <span class="immaculate" style="display: inline-block; margin-bottom: 0; font-size: 30px; font-weight: 700;">Immaculate Conception
+                            Parish</span><br>
+                            <span style="display: inline-block; margin-bottom: 0; font-size: 15px; ">Poblacion, Pandi Bulacan, 3014</span>
                     </div>
                 </div>
-            </form>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row text-center">
+                <div class="col-xs-12 col-md-6 col-lg-12">
+                    <div class="thumbnail" style="background-color: transparent; border: none;">
+                        <div class="caption">
+                            <h2 class="text-center"><strong><a href="#">REV.
+                                        FR. JOSELIN L. SAN JOSE</a></strong></h2>
+                            <h3 class="text-center"></strong>Parish Priest</h3>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-12">
+                    <div class="thumbnail" style="background-color: transparent; border: none;">
+                        <div class="caption">
+                            <h2 class="text-center"><strong><a href="#">REV.
+                                        FR. JONATHAN C. LAZARO</a></strong></h2>
+                            <h3 class="text-center"></strong>Parochial Vicar</h3>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                    <div class="thumbnail" style="background-color: transparent; border: none;">
+                        <div class="caption">
+                            <h4 class="text-center"><strong><a href="#">LEIGH
+                                        SHAREEN STA. MARIA</a></strong></h4>
+                            <h5 class="text-center"></strong>Parish Secretary I</h5>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                    <div class="thumbnail" style="background-color: transparent; border: none;">
+                        <div class="caption">
+                            <h4 class="text-center"><strong><a href="#">ZHAIRA
+                                        JHEM NGOTY</a></strong></h4>
+                            <h5 class="text-center"></strong>Parish Secretary II</h5>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                    <div class="thumbnail" style="background-color: transparent; border: none;">
+                        <div class="caption">
+                            <h4 class="text-center"><strong><a href="#">RONALDO
+                                        CRUZ</a></strong></h4>
+                            <h5 class="text-center"></strong>Cook / Driver</h5>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                    <div class="thumbnail" style="background-color: transparent; border: none;">
+                        <div class="caption">
+                            <h4 class="text-center"><strong><a
+                                        href="#">MANOLITO PARENAS <br> LILIA
+                                        PARENAS</a></strong></h4>
+                            <h5 class="text-center"></strong>Maintenance</h5>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                    <div class="thumbnail" style="background-color: transparent; border: none;">
+                        <div class="caption">
+                            <h4 class="text-center"><strong><a href="#">RHEANCE
+                                        PAUL MATEO</a></strong></h4>
+                            <h5 class="text-center"></strong>Sacristan Mayor</h5>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                    <div class="thumbnail" style="background-color: transparent; border: none;">
+                        <div class="caption">
+                            <h4 class="text-center"><strong><a href="#">MARWIN
+                                        STA. MARIA</a></strong></h4>
+                            <h5 class="text-center"></strong>Cemetery Coordinator</h5>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-4">
+                    <div class="thumbnail" style="background-color: transparent; border: none;">
+                        <div class="caption">
+                            <h4 class="text-center"><strong><a href="#">RONALD
+                                        NOLASCO</a></strong></h4>
+                            <h5 class="text-center"></strong>Cemetery Caretaker</h5>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 
@@ -1267,12 +1316,12 @@ jQuery(document).ready(function($) {
             timelineComponents['eventsContent'].on('swipeleft', function() {
                 var mq = checkMQ();
                 (mq == 'mobile') && showNewContent(timelineComponents, timelineTotWidth,
-                'next');
+                    'next');
             });
             timelineComponents['eventsContent'].on('swiperight', function() {
                 var mq = checkMQ();
                 (mq == 'mobile') && showNewContent(timelineComponents, timelineTotWidth,
-                'prev');
+                    'prev');
             });
 
             //keyboard navigation
@@ -1335,7 +1384,7 @@ jQuery(document).ready(function($) {
         var eventsWrapper = timelineComponents['eventsWrapper'].get(0);
         value = (value > 0) ? 0 : value; //only negative translate value
         value = (!(typeof totWidth === 'undefined') && value < totWidth) ? totWidth :
-        value; //do not translate more than timeline width
+            value; //do not translate more than timeline width
         setTransformValue(eventsWrapper, 'translateX', value + 'px');
         //update navigation arrows visibility
         (value == 0) ? timelineComponents['timelineNavigation'].find('.prev').addClass('inactive'):
@@ -1357,7 +1406,8 @@ jQuery(document).ready(function($) {
     function setDatePosition(timelineComponents, min) {
         for (i = 0; i < timelineComponents['timelineDates'].length; i++) {
             var distance = daydiff(timelineComponents['timelineDates'][0], timelineComponents['timelineDates'][
-                    i]),
+                    i
+                ]),
                 distanceNorm = Math.round(distance / timelineComponents['eventsMinLapse']) + 2;
             timelineComponents['timelineEvents'].eq(i).css('left', distanceNorm * min + 'px');
         }
@@ -1372,7 +1422,7 @@ jQuery(document).ready(function($) {
             totalWidth = timeSpanNorm * width;
         timelineComponents['eventsWrapper'].css('width', totalWidth + 'px');
         updateFilling(timelineComponents['timelineEvents'].eq(0), timelineComponents['fillingLine'],
-        totalWidth);
+            totalWidth);
 
         return totalWidth;
     }

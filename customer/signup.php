@@ -1,37 +1,32 @@
 <?php
 include '../connect.php';
-
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
     extract($_POST);
 
-$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-$sql = "INSERT INTO `login`( `first_name`,`last_name`,`birthday`,`gender`,`mobile_number`,`email`, `password`)
-VALUES(:first_name, :last_name, :birthday, :gender, :mobile_number, :email, :password)";
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $sql = "INSERT INTO `hold_otp` (`first_name`, `last_name`, `birthday`, `gender`, `mobile_number`, `email`, `password`, `date_created`)
+            VALUES (:first_name, :last_name, :birthday, :gender, :mobile_number, :email, :password, NOW())";
 
-try {
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(":first_name", $first_name);
-    $stmt->bindValue(":last_name", $last_name);
-    $stmt->bindValue(":birthday", $birthday);
-    $stmt->bindValue(":gender", $gender);
-    $stmt->bindValue(":mobile_number", $mobile_number);
-    $stmt->bindValue(":email", $email);
-    // Use the hashed password variable here
-    $stmt->bindValue(":password", $hashed_password);
-    $result = $stmt->execute();
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(":first_name", $first_name);
+        $stmt->bindValue(":last_name", $last_name);
+        $stmt->bindValue(":birthday", $birthday);
+        $stmt->bindValue(":gender", $gender);
+        $stmt->bindValue(":mobile_number", $mobile_number);
+        $stmt->bindValue(":email", $email);
+        // Use the hashed password variable here
+        $stmt->bindValue(":password", $hashed_password);
+        $result = $stmt->execute();
 
-    if ($result) {
-        echo ("<SCRIPT LANGUAGE='JavaScript'>
-            window.alert('Succesfully Registered, Please Login')
-            window.location.href='login.php';
-            </SCRIPT>");
-        exit;
+        if ($result) {
+            $lastId = $pdo->lastInsertId();
+            header("Location: send_otp.php?id=$lastId");
+            exit;
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
-
-
 }
 ?>
 <!DOCTYPE HTML>
@@ -47,6 +42,9 @@ try {
     <link rel="stylesheet" href="../style/footer.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <style>
 /* Style the modal */
@@ -123,7 +121,7 @@ try {
 </style>
 
 <style>
-        /* .wrap {
+/* .wrap {
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -132,7 +130,7 @@ try {
             padding: 2rem;
         } */
 
-        /* .container {
+/* .container {
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
@@ -144,60 +142,61 @@ try {
             box-shadow: 0rem 1rem 2rem -0.25rem rgba(0, 0, 0, 0.25);
         } */
 
-        .container__heading {
-            padding: 1rem 0;
-            border-bottom: 1px solid #ccc;
-            text-align: center;
-        }
+.container__heading {
+    padding: 1rem 0;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
 
-        .container__heading>h2 {
-            font-size: 1.75rem;
-            line-height: 1.75rem;
-            margin: 0;
-        }
+.container__heading>h2 {
+    font-size: 1.75rem;
+    line-height: 1.75rem;
+    margin: 0;
+}
 
-        .container__content {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            overflow-y: scroll;
-        }
+.container__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: scroll;
+}
 
-        .container__nav {
-            border-top: 1px solid #ccc;
-            text-align: right;
-            padding: 2rem 0 1rem;
-        }
+.container__nav {
+    border-top: 1px solid #ccc;
+    text-align: right;
+    padding: 2rem 0 1rem;
+}
 
-        .container__nav>input {
-            background: hsl(154, 53%, 38%);
-            box-shadow: 0rem 0.5rem 1rem -0.125rem rgba(0, 0, 0, 0.25);
-            padding: 0.8rem 2rem;
-            border-radius: 0.5rem;
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: transform 0.25s, box-shadow 0.25s;
-            border: none;
-            cursor: pointer;
-        }
+.container__nav>input {
+    background: hsl(154, 53%, 38%);
+    box-shadow: 0rem 0.5rem 1rem -0.125rem rgba(0, 0, 0, 0.25);
+    padding: 0.8rem 2rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: transform 0.25s, box-shadow 0.25s;
+    border: none;
+    cursor: pointer;
+}
 
-        /* .container__nav>button:hover {
+/* .container__nav>button:hover {
             box-shadow: 0rem 0rem 1rem -0.125rem rgba(0, 0, 0, 0.25);
             transform: translateY(-0.5rem);
         } */
 
-        .container__nav>small {
-            color: #777;
-            margin-right: 1rem;
-        }
+.container__nav>small {
+    color: #777;
+    margin-right: 1rem;
+}
 
-        .container__nav>input[disabled] {
-            background-color: #ccc;
-            color: #888;
-            pointer-events: none;
-        }
-    </style>
+.container__nav>input[disabled] {
+    background-color: #ccc;
+    color: #888;
+    pointer-events: none;
+}
+</style>
+
 <body>
 
     <!-- HTML for the alert message -->
@@ -255,15 +254,19 @@ try {
                             </select>
                         </div>
                     </div>
+
                     <div class="input-wrapper">
-                        <label for="mobile_number">Mobile Number</label>
-                        <input type="tel" id="mobile_number" name="mobile_number" placeholder="09*********"
-                            pattern="[0-9]{11}" required>
+                        <div class="select-wrapper">
+                            <label for="mobile_number">Mobile Number</label>
+                            <input type="tel" id="mobile_number" name="mobile_number" placeholder="09*********"
+                                pattern="[0-9]{11}" required>
+                        </div>
+                        <div class="select-wrapper">
+                            <label for="email">Email</label>
+                            <input id="email" type="text" name="email" placeholder="Enter Email" required>
+                        </div>
                     </div>
-                    <div class="input-wrapper">
-                        <label for="email">Email</label>
-                        <input id="email" type="text" name="email" placeholder="Enter Email" required>
-                    </div>
+
                     <div class="input-wrapper">
                         <label for="password">Password</label>
                         <input id="password" type="password" name="password" placeholder="**********" required>
@@ -276,9 +279,10 @@ try {
                         <span class="fas fa-eye-slash toggle-password-icon"
                             onclick="togglePassword('confirm_password')"></span>
                     </div>
-                    <br>
-
-                    <a class="button" href="#" onclick="openModal()">SIGN UP</a>
+                    <div class="input-wrapper" style="padding-left: 25px;">
+                        <div class="g-recaptcha" data-sitekey="6LdHhWkpAAAAANoFPNxXANeCUcRXtKfUrQ-Icdez"></div>
+                    </div>
+                    <a class="button" href="#" id="btncheck" onclick="openModal()">SIGN UP</a>
 
                     <!-- The Modal -->
                     <div id="myModal" class="modal">
@@ -361,7 +365,8 @@ try {
                         </div>
                         <div class="container__nav">
                             <small>By clicking 'Accept' you are agreeing to our terms and conditions.</small>
-                            <input type="submit" name="submit" value="Accept" class="buttons" id="acceptButton" disabled></input>
+                            <input type="submit" name="submit" value="Accept" class="buttons" id="acceptButton"
+                                disabled></input>
                         </div>
 
                     </div>
@@ -418,15 +423,16 @@ try {
                         } else if (!passwordsMatch) {
                             showAlertMessage("Passwords do not match. Please try again.", 3000);
                         } else {
-                            // Perform AJAX request to check if email exists
+                            // Perform AJAX request to check if email or mobile number exists
                             const xhr = new XMLHttpRequest();
-                            xhr.open('POST', 'signup_check_email.php', true);
+                            xhr.open('POST', 'signup_check.php', true);
                             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                             xhr.onload = function() {
                                 if (xhr.status === 200) {
                                     const response = xhr.responseText.trim();
                                     if (response === 'exists') {
-                                        showAlertMessage("Email already Taken. Please choose a different email.",
+                                        showAlertMessage(
+                                            "Email or Mobile Number already taken. Please choose a different one.",
                                             3000);
                                     } else {
                                         document.getElementById("myModal").style.display = "flex";
@@ -434,8 +440,9 @@ try {
                                     }
                                 }
                             };
-                            xhr.send('email=' + email);
+                            xhr.send('email=' + email + '&mobile_number=' + mobileNumber);
                         }
+
                     }
 
                     function closeModal() {
@@ -443,6 +450,7 @@ try {
                         document.getElementById("overlay").style.display = "none";
                     }
                     </script>
+
                     <!-- <input type="submit" class="button" name="submit" value="SIGN UP"> -->
                 </form>
             </div>
@@ -476,18 +484,19 @@ function togglePassword(inputId) {
 }
 </script>
 <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var content = document.getElementById("content");
-            var acceptButton = document.getElementById("acceptButton");
+document.addEventListener("DOMContentLoaded", function() {
+    var content = document.getElementById("content");
+    var acceptButton = document.getElementById("acceptButton");
 
-            content.addEventListener("scroll", function () {
-                // Add an offset to account for any discrepancies in calculating the scroll height
-                if (content.scrollHeight - content.scrollTop <= content.clientHeight + 1) {
-                    acceptButton.disabled = false;
-                } else {
-                    acceptButton.disabled = true;
-                }
-            });
-        });
-    </script>
+    content.addEventListener("scroll", function() {
+        // Add an offset to account for any discrepancies in calculating the scroll height
+        if (content.scrollHeight - content.scrollTop <= content.clientHeight + 1) {
+            acceptButton.disabled = false;
+        } else {
+            acceptButton.disabled = true;
+        }
+    });
+});
+</script>
+
 </html>

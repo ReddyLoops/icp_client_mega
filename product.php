@@ -53,7 +53,7 @@
                 "product_stock" => $product_stock
 			]);
 
-			$_SESSION['alert'] = "Product added";
+			$_SESSION['alert'] = "Product added!";
 		}
         $total_quantity = 0;
         foreach ($_SESSION[$cart_name] as $key => $dish) {
@@ -110,26 +110,31 @@
     z-index: 999;
     /* Ensure the alert is on top of other elements */
 }
+
 .product_alert {
     position: fixed;
     top: 100px;
     right: 20px;
-    background-color: #f44336;
-    color: white;
+    background-color: #D1FAE5;
+    border: solid 1px rgb(22 101 52);
+    color: rgb(22 101 52);
     padding: 15px;
     border-radius: 5px;
     z-index: 9999;
-    display: none; /* Initially hidden */
+    font-weight: bold;
+    font-size: 15px;
+    display: none;
+    /* Initially hidden */
 }
 </style>
 
 
 
 <body>
-<?php if (isset($_SESSION['alert'])): ?>
+    <?php if (isset($_SESSION['alert'])): ?>
     <div class="product_alert" id="product_alert"><?php echo $_SESSION['alert']; ?></div>
     <?php unset($_SESSION['alert']); // Unset the alert after displaying ?>
-<?php endif; ?>
+    <?php endif; ?>
 
     <!-- HTML for the alert message -->
     <div id="emailAlert" class="alert-message">
@@ -343,15 +348,39 @@ function addToCart() {
 </script>
 
 <script>
-    // Get the alert element
-    var alertBox = document.getElementById('product_alert');
-    // If alert element exists, show it
-    if (alertBox) {
-        alertBox.style.display = 'block'; // Show the alert
-        // Hide the alert after 5 seconds
-        setTimeout(function() {
-            alertBox.style.display = 'none'; // Hide the alert
-        }, 3000); // 5000 milliseconds = 5 seconds
-    }
+// Get the alert element
+var alertBox = document.getElementById('product_alert');
+// If alert element exists, show it
+if (alertBox) {
+    alertBox.style.display = 'block'; // Show the alert
+    // Hide the alert after 5 seconds
+    setTimeout(function() {
+        alertBox.style.display = 'none'; // Hide the alert
+    }, 3000); // 5000 milliseconds = 5 seconds
+}
 </script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Select the "Add to cart" button
+    const addToCartButtons = document.querySelectorAll(".add_button");
+
+    // Add event listener to handle button click for each "Add to cart" button
+    addToCartButtons.forEach(function(button) {
+        button.addEventListener("click", function(event) {
+            // Count the total number of items in the cart
+            var totalQuantity = <?php echo $total_quantity; ?>;
+
+            // If the total quantity is 5, display an alert and prevent further addition
+            if (totalQuantity === 5) {
+                event.preventDefault(); // Prevent the default click behavior
+                alert('You can only purchase 5 items per transaction!');
+                window.location.href = 'cart.php'; // Redirect to products.php
+            }
+        });
+    });
+});
+</script>
+
 </html>

@@ -9,6 +9,7 @@
 </head>
 <style>
     .horizontal-scroll-container {
+    margin-top: 50px;
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -104,7 +105,7 @@ to {background-position: 0 0;}
             <a href="./services.php">Services</a>
             <a href="./product.php">Products</a>
             <a href="./about.php">About</a>
-            <a href="./cart.php">Notification</a>
+            <a href="./notification.php">Notification</a>
         </section>
         <section class="flex-content padding_1x">
             <h3>Services</h3>
@@ -116,20 +117,14 @@ to {background-position: 0 0;}
         </section>
         <section class="flex-content padding_1x">
             <h3>Products</h3>
-            <a href="#">Chibi Saints</a>
+            <a href="product.php">Chibi Saints</a>
         </section>
         <section class="flex-content padding_3x">
             <h3>About our Website</h3>
-            <a href="#">Terms and Condition</a>
-            <a href="#">Privacy Policy</a>
+            <a href="terms&cond.php">Terms and Condition</a>
+            <a href="faq.php">FAQ</a>
         </section>
         <section class="flex-content padding_1x">
-            <h3>Support</h3>
-            <p></p>
-            <fieldset class="fixed_flex">
-                <input type="email" name="newsletter" placeholder="Your Email Address">
-                <button class="btn btn_2">Email</button>
-            </fieldset>
         </section>
         <section class="flex-content padding_0x"></section>
     </div>
@@ -140,11 +135,11 @@ to {background-position: 0 0;}
             <p> © 2023 || THESIS PROJECT</p>
         </section>
         <section class="flex-content">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-envelope"></i></a>
-            <a href="#"><i class="fa fa-instagram"></i></a>
-            <a href="#"><i class="fa fa-youtube"></i></a>
-        </section>
+    <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook"></i></a>
+    <a href=" immaculateconceptionparish@gmail.com" target="_blank"><i class="fa fa-envelope"></i></a>
+    <a href="https://www.instagram.com" target="_blank"><i class="fa fa-instagram"></i></a>
+    <a href="https://www.youtube.com" target="_blank"><i class="fa fa-youtube"></i></a>
+</section>
     </div>
 </footer>
 </body>

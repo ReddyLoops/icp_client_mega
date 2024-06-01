@@ -157,3 +157,21 @@ $(function() {
     });
 
 });
+
+// Function to calculate and display shipping fee
+function calculateShipping(regionCode) {
+    // Retrieve the shipping fee data from the server
+    $.getJSON('path/to/shipping_fee_data.php?region_code=' + regionCode, function(data) {
+        // Check if data is available for the selected region
+        if (data && data.shipping_fee) {
+            // Get the shipping fee for the selected region
+            const shippingFee = data.shipping_fee;
+
+            // Update the displayed shipping fee on the page
+            $('#shipping_fee').val(shippingFee);
+        } else {
+            // If data is not available, display a default message or handle it accordingly
+            $('#shipping_fee').val('Shipping fee not available');
+        }
+    });
+}

@@ -264,7 +264,7 @@ $totalOrders = count($orders);
                             <div class="card-body">
                                 <div class="top-status">
                                     <div style="display: flex; justify-content: space-between;">
-                                        <h5 style="margin: 0;">ORDER ID: #PICP<?php echo $order_id; ?></h5>
+                                        <h5 style="margin: 0;">ORDER ID: <?php echo $order_id; ?></h5>
                                         <h5 id="tracking_number" style="margin: 0; text-align: right; display: none;">J&T Tracking No. : #000000000000</h5>
                                     </div>
                                     <div class="process_steps">

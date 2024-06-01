@@ -146,7 +146,7 @@ if (isset($_SESSION['auth_login'])) {
                         <input id="password" type="password" name="password" placeholder="**********" required>
                         <span class="fas fa-eye-slash toggle-password-icon" id="togglePassword"></span>
                     </div>
-                    <div class="input-wrapper" style="padding-left: 25px;">
+                    <div class="input-wrapper" style="padding-left: 25px; width: 100px; height: auto;">
                         <div class="g-recaptcha" data-sitekey="6LdHhWkpAAAAANoFPNxXANeCUcRXtKfUrQ-Icdez"></div>
                     </div>
                     <!-- <div class="tacbox">

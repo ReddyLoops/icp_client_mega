@@ -21,6 +21,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Count the total number of orders
 $totalOrders = count($orders);
+
 ?>
 
 <!DOCTYPE HTML>
@@ -35,7 +36,153 @@ $totalOrders = count($orders);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
     <link rel="stylesheet" href="../style/nav.css">
     <link rel="stylesheet" href="../style/footer.css">
-    <style>
+
+</head>
+<?php include '../nav.php';?>
+<body>
+    <a class="btn btn-info btn-sm m-3" href="../product.php">Back to Orders</a>
+    <section class="my-5">
+        <div class="container">
+            <div class="main-body">
+                <div class="row">
+                    <!-- PRODUCT DESCRIPTION -->
+                    <div class="col-lg">
+                        <?php
+                            $groupOrder = null;
+                            $total = 0;
+                            $combinedDescription = '';
+                            foreach ($orders as $row) { 
+                                if ($groupOrder !== $row['group_order']) {
+                                    // New group order, output combined description
+                                    if ($groupOrder !== null) {
+                                        echo '<div class="card mt-4">
+                                                <div class="card-body p-0 table-responsive ">
+                                                    <div style="display: flex; justify-content: space-between;">
+                                                        <h4 class="p-3 mb-0">' . $groupOrder . '</h4>
+                                                        <h5 class="text-' . getStatusColor($row['status']) . ' p-3 mb-0">' . $row['status'] . '</h5>
+                                                    </div>
+                                                    <table class="table mb-0 text-right">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Description</th>
+                                                                <th scope="col"></th>
+                                                                <th scope="col">Amount</th>
+                                                                <th scope="col">Quantity</th>
+                                                                <th scope="col">Subtotal</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>' . $combinedDescription . '</tbody>
+                                                    </table>
+                                                    <div style="display: flex; justify-content: space-between;">
+                                                        <div class="text-left p-3">
+                                                            <span class="text-muted">Payment Method:</span>
+                                                            <span class="badge badge-success">' . $row['order_payment'] . '</span>
+                                                            <br>
+                                                            <span class="text-muted">Order Total:</span>
+                                                            <strong>₱' . number_format($total, 2) . '</strong>
+                                                        </div>
+                                                        <a href="view_orders.php?order_id=' . $groupOrder . '" class="btn btn-primary btn-sm h-25">View</a>
+                                                    </div>
+                                                </div>
+                                            </div>';
+                                        // Reset combined description for the next group order
+                                        $combinedDescription = '';
+                                    }
+                                    $groupOrder = $row['group_order'];
+                                    $total = 0; // Reset total for the new group order
+                                    $shipping_fee = 0;
+                                }
+                                $product_quantity = $row['product_quantity'];
+                                $product_price = $row['product_price'];
+                                $grandtotal = $row['grandtotal'];
+                                $subtotal = $product_quantity * $product_price;
+                                $shipping_fee = $grandtotal - $subtotal;
+                                $total += $subtotal;
+                                // Concatenate product descriptions
+                                $combinedDescription .= '<tr>
+                                                            <th>
+                                                                <img src="../image/' . $row['product_image'] . '" alt="product" class="" width="50">
+                                                            </th>
+                                                            <td>' . $row['product_name'] . '</td>
+                                                            <td>₱' . number_format($row['product_price'], 2) . '</td>
+                                                            <td>' . $row['product_quantity'] . '</td>
+                                                            <td>₱ ' . number_format($subtotal, 2) . '</td>
+                                                        </tr>';
+                            }
+
+                            // Output the last group order
+                            if ($groupOrder !== null) {
+                                echo '<div class="card mt-4">
+                                        <div class="card-body p-0 table-responsive ">
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <h4 class="p-3 mb-0">' . $groupOrder . '</h4>
+                                                <h5 class="text-' . getStatusColor($row['status']) . ' p-3 mb-0">' . $row['status'] . '</h5>
+                                            </div>
+                                            <table class="table mb-0 text-right">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Description</th>
+                                                        <th scope="col"></th>
+                                                        <th scope="col">Amount</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Subtotal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>' . $combinedDescription . '</tbody>
+                                            </table>
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <div class="text-left p-3">
+                                                    <span class="text-muted">Payment Method:</span>
+                                                    <span class="badge badge-success">' . $row['order_payment'] . '</span>
+                                                    <br>
+                                                    <span class="text-muted">Order Total:</span>
+                                                    <strong>₱' . number_format($total, 2) . '</strong>
+                                                </div>
+                                                <a href="view_orders.php?order_id=' . $groupOrder . '" class="btn btn-primary btn-sm h-25">View</a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>';
+                            }
+
+                            function getStatusColor($status) {
+                                switch ($status) {
+                                    case 'Order Placed':
+                                        return 'primary';
+                                    case 'Order Shipped Out':
+                                        return 'info';
+                                    case 'Order Received':
+                                        return 'warning';
+                                    case 'Order Completed':
+                                        return 'success';
+                                    default:
+                                        return 'secondary';
+                                }
+                            }
+                        ?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+
+</body>
+<?php include '../footer.php';?>
+</html>
+<style>
     /* PROCESS STEPS */
     /* @import url('https://fonts.googleapis.com/css?family=Muli&display=swap'); */
 
@@ -244,155 +391,3 @@ $totalOrders = count($orders);
 
     /* end timeline */
     </style>
-</head>
-
-<?php include '../nav.php';?>
-<body>
-    <a class="btn btn-info btn-sm m-3" href="../product.php">Back to Orders</a>
-    <section class="my-5">
-        <div class="container">
-            <div class="main-body">
-
-
-                <div class="row">
-
-
-                    <!-- PRODUCT DESCRIPTION -->
-                    <div class="col-lg">
-
-                        <?php
-                            $groupOrder = null;
-                            $total = 0;
-                            $combinedDescription = '';
-                            foreach ($orders as $row) { 
-                                if ($groupOrder !== $row['group_order']) {
-                                    // New group order, output combined description
-                                    if ($groupOrder !== null) {
-                                        echo '<div class="card mt-4">
-                                                <div class="card-body p-0 table-responsive ">
-                                                    <div style="display: flex; justify-content: space-between;">
-                                                        <h4 class="p-3 mb-0">' . $groupOrder . '</h4>
-                                                        <h5 class="text-' . getStatusColor($row['status']) . ' p-3 mb-0">' . $row['status'] . '</h5>
-                                                    </div>
-                                                    <table class="table mb-0 text-right">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col">Description</th>
-                                                                <th scope="col"></th>
-                                                                <th scope="col">Amount</th>
-                                                                <th scope="col">Quantity</th>
-                                                                <th scope="col">Subtotal</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>' . $combinedDescription . '</tbody>
-                                                    </table>
-                                                    <div style="display: flex; justify-content: space-between;">
-                                                        <div class="text-left p-3">
-                                                            <span class="text-muted">Payment Method:</span>
-                                                            <span class="badge badge-success">' . $row['order_payment'] . '</span>
-                                                            <br>
-                                                            <span class="text-muted">Order Total:</span>
-                                                            <strong>₱' . number_format($total, 2) . '</strong>
-                                                        </div>
-                                                        <a href="view_orders.php?order_id=' . $groupOrder . '" class="btn btn-primary btn-sm h-25">View</a>
-                                                    </div>
-                                                </div>
-                                            </div>';
-                                        // Reset combined description for the next group order
-                                        $combinedDescription = '';
-                                    }
-                                    $groupOrder = $row['group_order'];
-                                    $total = 0; // Reset total for the new group order
-                                }
-                                $product_quantity = $row['product_quantity'];
-                                $product_price = $row['product_price'];
-                                $subtotal = $product_quantity * $product_price;
-
-                                $total += $subtotal;
-                                // Concatenate product descriptions
-                                $combinedDescription .= '<tr>
-                                                            <th>
-                                                                <img src="../image/' . $row['product_image'] . '" alt="product" class="" width="50">
-                                                            </th>
-                                                            <td>' . $row['product_name'] . '</td>
-                                                            <td>₱' . number_format($row['product_price'], 2) . '</td>
-                                                            <td>' . $row['product_quantity'] . '</td>
-                                                            <td>₱ ' . number_format($subtotal, 2) . '</td>
-                                                        </tr>';
-
-                               
-                                
-                            }
-
-                            // Output the last group order
-                            if ($groupOrder !== null) {
-                                echo '<div class="card mt-4">
-                                        <div class="card-body p-0 table-responsive ">
-                                            <div style="display: flex; justify-content: space-between;">
-                                                <h4 class="p-3 mb-0">' . $groupOrder . '</h4>
-                                                <h5 class="text-' . getStatusColor($row['status']) . ' p-3 mb-0">' . $row['status'] . '</h5>
-                                            </div>
-                                            <table class="table mb-0 text-right">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Description</th>
-                                                        <th scope="col"></th>
-                                                        <th scope="col">Amount</th>
-                                                        <th scope="col">Quantity</th>
-                                                        <th scope="col">Subtotal</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>' . $combinedDescription . '</tbody>
-                                            </table>
-                                            <div style="display: flex; justify-content: space-between;">
-                                                <div class="text-left p-3">
-                                                    <span class="text-muted">Payment Method:</span>
-                                                    <span class="badge badge-success">' . $row['order_payment'] . '</span>
-                                                    <br>
-                                                    <span class="text-muted">Order Total:</span>
-                                                    <strong>₱' . number_format($total, 2) . '</strong>
-                                                </div>
-                                                <a href="view_orders.php?order_id=' . $groupOrder . '" class="btn btn-primary btn-sm h-25">View</a>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>';
-                            }
-
-                            function getStatusColor($status) {
-                                switch ($status) {
-                                    case 'Order Placed':
-                                        return 'primary';
-                                    case 'Order Shipped Out':
-                                        return 'info';
-                                    case 'Order Received':
-                                        return 'warning';
-                                    case 'Order Completed':
-                                        return 'success';
-                                    default:
-                                        return 'secondary';
-                                }
-                            }
-                        ?>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
-
-</body>
-<?php include '../footer.php';?>
-</html>

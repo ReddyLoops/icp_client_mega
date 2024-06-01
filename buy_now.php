@@ -9,16 +9,20 @@ if (!isset($_SESSION['auth_login'])) {
 $auth = $_SESSION['auth_login'];
 ?>
 <?php
-if (isset($_POST['buy_now'])) {
-    $product_name = $_POST['product_name'];
-    $product_image = $_POST['product_image'];
-    $product_description = $_POST['product_description'];
-    $product_price = $_POST['product_price'];
-    $status = "Order Placed";
+if (isset($_SESSION['product_data'])) {
+    // Retrieve product data from session
+    $product_data = $_SESSION['product_data'];
 
-    // Now you can use these variables as needed in your buy_now.php file
-    // ...
+    // Access individual data elements
+    $product_name = $product_data['name'];
+    $product_image = $product_data['image'];
+    $product_description = $product_data['description'];
+    $product_price = $product_data['price'];
+
+    // You can also retrieve additional data if needed
+    // $status = isset($_SESSION['status']) ? $_SESSION['status'] : '';
 }
+?>
 ?>
 <?php
 // Initialize variables
