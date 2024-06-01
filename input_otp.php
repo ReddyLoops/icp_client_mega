@@ -76,43 +76,30 @@ function getResendUrl($id) {
     <title>Enter OTP</title>
     <style>
 .otp-Form {
-    width: 450px;
-    height: 420px;
+    width: 350px;
+    height: 370px;
     background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     padding: 20px 30px;
-    gap: 15px;
+    gap: 20px;
     position: relative;
-    /* box-shadow: 0px 0px 20px rgb(15, 15, 15); */
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 0px 20px rgb(15, 15, 15);
     border-radius: 15px;
 }
 .mainHeading {
-  font-size: 1.3em;
-  /* color: rgb(15, 15, 15); */
-  font-weight: 900;
-  color: rgb(22 101 52);
+  font-size: 1.1em;
+  color: rgb(15, 15, 15);
+  font-weight: 700;
 }
 
 .otpSubheading {
-  font-size: 0.8em;
-  font-weight: 700;
+  font-size: 0.7em;
   color: black;
   line-height: 17px;
   text-align: center;
-  margin: 0;
-}
-
-.otpSubheadingFooter {
-  font-size: 0.7em;
-  font-weight: 700;
-  color: red;
-  line-height: 17px;
-  text-align: center;
-  margin: 0;
 }
 
 .inputContainer {
@@ -122,13 +109,12 @@ function getResendUrl($id) {
   gap: 10px;
   align-items: center;
   justify-content: center;
-  margin: 10px 0;
 }
 
 .otp-input {
   background-color: rgba(0, 0, 0, 0.2);
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   text-align: center;
   border: none;
   border-radius: 7px;
@@ -136,7 +122,6 @@ function getResendUrl($id) {
   color: rgb(44, 44, 44);
   outline: none;
   font-weight: 600;
-  font-size: 20px;
 }
 
 .otp-input:focus,
@@ -147,7 +132,7 @@ function getResendUrl($id) {
 
 .verifyButton {
   width: 100%;
-  height: 45px;
+  height: 30px;
   border: none;
   background-color: #258d36;
   color: white;
@@ -155,7 +140,6 @@ function getResendUrl($id) {
   cursor: pointer;
   border-radius: 10px;
   transition-duration: .2s;
-  font-size: 20px;
 }
 
 .verifyButton:hover {
@@ -179,7 +163,7 @@ function getResendUrl($id) {
 }
 
 .resendNote {
-  font-size: 0.8em;
+  font-size: 0.7em;
   color: black;
   width: 100%;
   display: flex;
@@ -194,7 +178,7 @@ function getResendUrl($id) {
   border: none;
   color: gray;
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: 700;
 }
 .container {
@@ -202,23 +186,6 @@ function getResendUrl($id) {
     justify-content: center;
     padding-top: 7em;
 }
-
-
-.circle {
-    width: 90px; /* Adjust as needed */
-    height: 90px; /* Adjust as needed */
-    border-radius: 50%; /* Makes it a circle */
-    background-color: rgb(21 128 61);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.fa-user-shield {
-    color: rgb(240 253 244);
-    font-size: 50px; /* Adjust as needed */
-}
-
     </style>
     <?php include 'nav.php';?>
 </head>
@@ -227,25 +194,20 @@ function getResendUrl($id) {
 <div></div>
 <div class="container">
 <form class="otp-Form" id="otpForm" method="post">
-    <span class="mainHeading">OTP Verification</span>
-    <span class="mainHeading"><div class="circle">
-    <i class="fas fa-user-shield"></i>
-</div></span>
-    <p id="timer" style="
-        font-size: 20px;
-        font-weight: bold;
-        margin: 0;"></p>
-    <p class="otpSubheading">Please enter the Verification Code we sent to your Email</p>
-    <div class="inputContainer">
-        <input type="text" class="otp-input" id="otp1" name="otp1" maxlength="1" required autofocus>
-        <input type="text" class="otp-input" id="otp2" name="otp2" maxlength="1" required>
-        <input type="text" class="otp-input" id="otp3" name="otp3" maxlength="1" required>
-        <input type="text" class="otp-input" id="otp4" name="otp4" maxlength="1" required>
-        <input type="text" class="otp-input" id="otp5" name="otp5" maxlength="1" required>
-        <input type="text" class="otp-input" id="otp6" name="otp6" maxlength="1" required><br><br>
+<span class="mainHeading">Enter OTP</span>
+<p id="timer" style="
+    font-size: 20px;
+    font-weight: bold;"></p>
+  <p class="otpSubheading">The OTP WILL EXPIRED AFTER 5 MINUTES <br> We have sent a verification code to your mobile number </p>
+  <div class="inputContainer">
+    <input type="text" class="otp-input" id="otp" name="otp1" maxlength="1" required>
+    <input type="text" class="otp-input" id="otp" name="otp2" maxlength="1" required>
+    <input type="text" class="otp-input" id="otp" name="otp3" maxlength="1" required>
+    <input type="text" class="otp-input" id="otp" name="otp4" maxlength="1" required>
+    <input type="text" class="otp-input" id="otp" name="otp5" maxlength="1" required>
+    <input type="text" class="otp-input" id="otp" name="otp6" maxlength="1" required><br><br>
     </div>
     <input class="verifyButton" type="submit" id="submitBtn" value="Submit">
-    <p class="otpSubheadingFooter">(The OTP WILL EXPIRE AFTER 5 MINUTES)</p>
 </form>
 </div>
 <p class="resendNote">Didn't receive the code?
@@ -283,33 +245,10 @@ function getResendUrl($id) {
 
     function resendOTP(id) {
         console.log('Resend clicked with ID: ' + id);
-        window.location.href = 'customers/update_otp.php?id=' + id;
+        window.location.href = 'update_otp.php?id=' + id;
     }
 
     startTimer();
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const otpInputs = document.querySelectorAll('.otp-input');
-
-        otpInputs.forEach(function (input, index) {
-            input.addEventListener('input', function () {
-                if (this.value.length >= 1) {
-                    if (index < otpInputs.length - 1) {
-                        otpInputs[index + 1].focus();
-                    } else {
-                        // The last input is filled, you can trigger form submission here if needed
-                    }
-                }
-            });
-
-            // Prevent users from pasting into the input fields
-            input.addEventListener('paste', function (e) {
-                e.preventDefault();
-            });
-        });
-    });
 </script>
 <?php include 'footer.php';?>
 </body>

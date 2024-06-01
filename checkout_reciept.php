@@ -1,4 +1,4 @@
-<?php
+    <?php
 // Include the connect.php file to establish a database connection
 include_once "connect.php";
 
@@ -42,7 +42,6 @@ if ($result_products->num_rows > 0) {
     $order_address = $row["order_address"];
     $order_payment = $row["order_payment"];
     $order_courier = $row["order_phonenumber"];
-    $order_shipping_fee = $row["order_shipping_fee"];
     
     
 
@@ -87,23 +86,20 @@ if ($result_products->num_rows > 0) {
                 <?php
                 $grand_total = 0;
 
-                $subtotal = 0; // Initialize subtotal outside the loop
+                // Calculate grand total
                 while ($product = $result_products->fetch_assoc()) {
-                    $product_quantity = $product['product_quantity'];
-                    $product_price = $product['product_price'];
-                    $subtotal += $product_quantity * $product_price;
+                    $product_price = $product["product_price"];
+                    $product_quantity = $product["product_quantity"];
+                    $subtotal = $product_quantity * $product_price;
+                    $grand_total += $subtotal;
                 }
-                $grand_total = $subtotal + $order_shipping_fee;
                 ?>
                 <tr>
                     <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
                         <p style="margin:0 0 10px 0;padding:0;font-size:14px; float:right;"><span style="display:block;font-weight:bold;font-size:13px">Purchased Date</span> <?= $date_added ?></p>
-                        <strong>Transaction ID: </strong> <?= $group_order ?><br>
-                        <strong>Shipping Fee: </strong> ₱ <?= number_format($order_shipping_fee, 2) ?><br>
-                        <strong>Subtotal: </strong> ₱ <?= number_format($subtotal, 2) ?><br>
-                        <strong>Grand Total: ₱ <?= number_format($grand_total, 2) ?></strong><br>
-                        <strong >Status: </strong><b style="color:green;font-weight:normal;margin:0">Order Placed</b>
-                        
+                        <strong>Grand Total: </strong> ₱ <?= number_format($grand_total, 2) ?><br>
+                        <strong >Status: </strong><b style="color:green;font-weight:normal;margin:0"> <?= $status ?></b><br>
+                        <strong>Transaction ID: </strong> <?= $group_order ?>
                     </td>
                 </tr>
                 <tr>
@@ -143,11 +139,7 @@ if ($result_products->num_rows > 0) {
                         <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Order Payment</span><?= $order_payment ?></p>
                         <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Phone Number</span><?= $order_phonenumber ?></p>
                     </td>
-                    <td>
-                        <div style="margin-top: 200px;">
-                        <a href="send_checkout.php?group_order=<?= $group_order ?>"><button type="button" class="btn btn-success">OK</button></a>
-                        </div>
-                    </td>
+                    <td><a href="send_checkout.php?group_order=<?= $group_order ?>"><button type="button" class="btn btn-success">OK</button></a></td>
                 </tr>
             </tbody>
         </table>

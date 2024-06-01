@@ -1,5 +1,5 @@
-<?php
-require_once "../connect.php";
+    <?php
+    require_once "../connect.php";
 
 function updateProductStock($pdo, $product_name, $product_quantity) {
     // Prepare SQL statement to update product stock
@@ -35,13 +35,13 @@ function updateProductStock($pdo, $product_name, $product_quantity) {
 if (isset($_POST['cart_checkout'])) {
     session_start(); // Start session if not already started
 
-    $auth = $_SESSION['auth_login'];
-    $cart_name = 'cart-' . $auth['id'] . '-cart';
+        $auth = $_SESSION['auth_login'];
+        $cart_name = 'cart-' . $auth['id'] . '-cart';
 
-    // Create cart if not exists
-    if (!isset($_SESSION[$cart_name])) {
-        $_SESSION[$cart_name] = [];
-    }
+        // Create cart if not exists
+        if (!isset($_SESSION[$cart_name])) {
+            $_SESSION[$cart_name] = [];
+        }
 
     // Extract order details from POST data
     $order_username = $_POST['order_username'];
@@ -74,8 +74,8 @@ if (isset($_POST['cart_checkout'])) {
     }
     
 
-    // Clear the cart after checkout
-    unset($_SESSION[$cart_name]);
+        // Clear the cart after checkout
+        unset($_SESSION[$cart_name]);
 
     header("location: ../checkout_reciept.php?group_order=$group_order");
     exit;
